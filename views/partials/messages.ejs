@@ -1,0 +1,10 @@
+<% if(typeof errors != "undefined") { %>
+    <% errors.forEach(function(error) { %>
+        <div>
+            <%=error.msg %>
+            <button >
+              <span>&times;</span>
+            </button>
+          </div>
+   <% }); %>
+<% } %>
