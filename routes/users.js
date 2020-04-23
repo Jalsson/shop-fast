@@ -39,9 +39,9 @@ router.post('/register',(req,res) => {
             password2
         })
     }else{
-        userModel.findUser({name: name,email: email})
+        userModel.selectUser({name: name,email: email})
         .then(user => {
-                if(user[0] !== undefined){
+                if(user[0]){
                         // User exits 
                         
                         errors.push({msg: 'Username or email already exits'})
@@ -67,6 +67,7 @@ router.post('/register',(req,res) => {
                             newUser.password = hash
                             // saving user to database
                             userModel.insertUser(newUser).then(user => {
+                                req.flash("success_msg", "You are now registered and can log in")
                                 res.redirect('/users/login')
                             })
                             .catch(err => console.log(err))

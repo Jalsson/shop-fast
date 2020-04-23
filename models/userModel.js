@@ -9,18 +9,18 @@ const insertUser = async (user) => {
 } catch (e) {
     console.log('error', e.message);
   }
-};
+}
 
-const findUser = async (user) => {
+const selectUser = async (user) => {
   try {
-  const [rows] = await promisePool.query('SELECT id FROM Users WHERE username = ? OR email = ?', [ user.name, user.email]);
+  const [rows] = await promisePool.query('SELECT username ,email, password FROM Users WHERE username = ? AND email = ?', [ user.name, user.email]);
   return rows;
 } catch (e) {
   console.log('error', e.message);
 }
-};
+}
 
 module.exports = {
   insertUser,
-  findUser,
+  selectUser
   };

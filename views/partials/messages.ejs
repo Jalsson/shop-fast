@@ -1,10 +1,38 @@
-<% if(typeof errors != "undefined") { %>
-    <% errors.forEach(function(error) { %>
-        <div>
-            <%=error.msg %>
-            <button >
-              <span>&times;</span>
-            </button>
-          </div>
-   <% }); %>
+<% if(typeof errors != "undefined") {%>
+  <% errors.forEach(function(error){%>
+  
+  <div>
+  <%=error.msg %>
+  <button>
+    <span></span>
+  </button>
+</div>
+ <% });%>
+<% } %>
+
+<% if(success_msg != "") {%>
+<div style="background-color: green;">
+  <%= success_msg %>
+  <button>
+    <span></span>
+  </button>
+</div>
+<% } %>
+
+<% if(error_msg != "") {%>
+<div style="background-color: red;">
+  <%= error_msg %>
+  <button>
+    <span></span>
+  </button>
+</div>
+<% } %>
+
+<% if(error != "") {%>
+<div>
+  <%= error %>
+  <button>
+    <span></span>
+  </button>
+</div>
 <% } %>

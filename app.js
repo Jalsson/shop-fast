@@ -1,6 +1,8 @@
 require('dotenv').config();
 const express = require('express');
 const expressLayouts = require('express-ejs-layouts')
+const flash = require('connect-flash')
+const session = require('express-session')
 
 const app = express();
 app.use(express.static('uploads'));
@@ -11,6 +13,24 @@ app.set('view engine', 'ejs')
 //Bodyparser
 app.use(express.json()); // for parsing application/json
 app.use(express.urlencoded({extended: false}))
+
+// Express session 
+app.use(session({
+    secret: 'cat secret thing',
+    resave: true,
+    saveUninitialized: true
+  }))
+
+// Connect flash
+app.use(flash()) 
+
+// Global warning variables
+app.use((req, res, next) => {
+  res.locals.success_msg = req.flash("success_msg")
+  res.locals.error_msg = req.flash("error_msg")
+  res.locals.error = req.flash("error")
+  next()
+});
 
 app.use(express.static(__dirname + '/public'));
 app.use(express.static('views'));
