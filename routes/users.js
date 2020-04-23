@@ -1,6 +1,7 @@
 const express = require('express')
 const router = express.Router()
 const userModel = require('../models/userModel');
+const bcrypt = require('bcryptjs')
 //const userController = require('../controllers/userController');
 // Login page
 router.get('/login', (req,res) => {res.render('login')})
@@ -38,7 +39,44 @@ router.post('/register',(req,res) => {
             password2
         })
     }else{
-        res.send('pass');
+        userModel.findUser({name: name,email: email})
+        .then(user => {
+                if(user[0] !== undefined){
+                        // User exits 
+                        
+                        errors.push({msg: 'Username or email already exits'})
+                        res.render("register",{
+                            errors,
+                            name,
+                            email,
+                            password,
+                            password2
+                        })
+                 }
+                 else{
+                    const newUser = {
+                        name,
+                        email,
+                        password
+                    }
+                    //Hash password
+                    bcrypt.genSalt(15, function(err,salt){
+                        bcrypt.hash(newUser.password, salt, function(err, hash){
+                            if(err) throw err
+                            // Set password to hashed
+                            newUser.password = hash
+                            // saving user to database
+                            userModel.insertUser(newUser).then(user => {
+                                res.redirect('/users/login')
+                            })
+                            .catch(err => console.log(err))
+                           
+                    })})
+                 }
+            })
+            
+        // Validation passed
+
     }
 })
 
