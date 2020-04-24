@@ -9,6 +9,7 @@ password CHAR(120) NOT NULL
 
 CREATE TABLE Product(
 id int(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
+Name CHAR(50) NOT NULL,
 owner_id int(11) NOT NULL,
 price_flex CHAR(80) NOT NULL,
 price double(20,2) NOT NULL,
@@ -79,4 +80,15 @@ FOREIGN KEY (settings_id) REFERENCES Settings(id),
 FOREIGN KEY (user_id) REFERENCES Users(id)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
+#########################################
+##########SOME INSERTS###################
+#########################################
 
+INSERT INTO Product (owner_id, price, description, location ) VALUES
+(2, 5.2, "Test Product 2", "test location");
+
+INSERT INTO Picture (url) VALUES
+('http://placekitten.com/400/302');
+
+INSERT INTO Picture (url) VALUES
+('http://placekitten.com/400/300');

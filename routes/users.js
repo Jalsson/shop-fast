@@ -2,6 +2,8 @@ const express = require('express')
 const router = express.Router()
 const userModel = require('../models/userModel');
 const bcrypt = require('bcryptjs')
+const passport = require('passport')
+
 //const userController = require('../controllers/userController');
 // Login page
 router.get('/login', (req,res) => {res.render('login')})
@@ -39,11 +41,10 @@ router.post('/register',(req,res) => {
             password2
         })
     }else{
-        userModel.selectUser({name: name,email: email})
+        userModel.selectUser({email: email})
         .then(user => {
                 if(user[0]){
                         // User exits 
-                        
                         errors.push({msg: 'Username or email already exits'})
                         res.render("register",{
                             errors,
@@ -71,14 +72,26 @@ router.post('/register',(req,res) => {
                                 res.redirect('/users/login')
                             })
                             .catch(err => console.log(err))
-                           
                     })})
                  }
             })
-            
-        // Validation passed
-
     }
 })
 
+
+// Login handle
+router.post('/login',function(req,res,next){
+    passport.authenticate('local',{
+        successRedirect: '/frontpage',
+        failureRedirect: '/users/login',
+        failureFlash: true
+    })(req, res, next)
+})
+
+//Logout hangle
+router.get('/logout', function(req, res){
+    req.logout()
+    req.flash('success_msg', 'You are logged out')
+    res.redirect('/users/login')
+})
 module.exports = router

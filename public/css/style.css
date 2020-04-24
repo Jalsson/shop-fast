@@ -16,7 +16,7 @@ body{
     min-height: 100vh;
 }
 #Header{
-    height: 10vh;
+    
     margin-left: 20%;
     margin-right: 20%;
     background-color: blue;
@@ -33,3 +33,34 @@ body{
 img{
     width: 100%;
 }
+.slideImage {display:none;}
+
+input[type=text], select {
+    width: 10%;
+    padding: 12px 20px;
+    margin: 8px ;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+  }
+  
+  input[type=submit] {
+    width: 5%;
+    background-color: #4CAF50;
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  input[type=submit]:hover {
+    background-color: #45a049;
+  }
+  h2{
+    margin: 0;
+    margin-left: 1%;
+  }
+  
