@@ -2,13 +2,72 @@
     display: flex;
     flex-wrap: wrap;
     background-color: DodgerBlue;
+    justify-content: center;
   }
   
   .flex-container > div {
     background-color: #f1f1f1;
-    width: 100px;
     margin: 10px;
-    text-align: center;
-    line-height: 75px;
+    line-height: 65px;
     font-size: 30px;
+  }
+
+  .chat-window {
+    background-color: #f1f1f1;
+    height: 80vh;
+    width: 800px;
+    display: flex;
+    flex-direction: column;
+  }
+  .users-window{
+    background-color: gray;
+    height: 80vh;
+    overflow: auto;
+    overflow-x: hidden;
+  }
+  .user{
+    background-color: green;
+    width: 300px;
+    margin: 0px 0px 1px 0px;
+    height: 80px;
+    overflow: hidden;
+  }
+
+  .user-text{
+    line-height: 35px;
+    white-space: nowrap;
+    margin-left: 10px;
+  }
+
+  .chat-body {
+    flex-grow: 1;
+    padding: 20px 10px
+  }
+
+  .chat-footer{
+    background-color: gray;
+  }
+
+  .chat-messagebox{
+    width: 85% !important; 
+  }
+
+  .message{
+    background-color: gray;
+    width: max-content;
+  }
+
+  .otheruser-message{
+
+    justify-content: start;
+  }
+
+  .user-message{
+
+    justify-content: end;
+  }
+
+  .message-container{
+    display: flex;
+    margin-bottom: 10px;
   }
