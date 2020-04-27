@@ -13,8 +13,14 @@ router.get('/frontpage',ensureAuthenticated, (req,res) => {
     res.render('frontpage',{
         name: req.user.username
     })})
+
+router.get('/messages',ensureAuthenticated, (req,res) => {
+    res.render('messages',{
+        name: req.user.username,
+        email: req.user.email
+    })})
 //router.get('/', (req,res) => {res.render('Welcome')})
 //router.get('/', (req,res) => {res.render('index')});
 //router.get('/product', dataController.products_get);
 //router.get('/:id', dataController.image_get);
-module.exports = router
+module.exports = router 

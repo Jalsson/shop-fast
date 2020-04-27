@@ -13,7 +13,7 @@ const insertUser = async (user) => {
 
 const selectUser = async (user) => {
 try {
-const [rows] = await promisePool.query('SELECT username ,email, password FROM Users WHERE username = ? OR email = ?', [ user.name, user.email]);
+const [rows] = await promisePool.query('SELECT username ,email, password FROM Users WHERE username = ? OR  email = ?', [ user.name, user.email]);
 return rows[0];
 } catch (e) {
 console.log('error', e.message);

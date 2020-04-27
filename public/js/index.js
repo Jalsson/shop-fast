@@ -1,6 +1,6 @@
 console.log('runnaa')
 const url = 'http://localhost:5000';
-const test = document.createElement('p');
+
 const mainHeader = document.querySelector('#main')
 const addDataForm = document.querySelector('#add-data-form');
 
@@ -65,6 +65,59 @@ const getProducts = async () => {
     x[slideIndex-1].style.display = "block";  }
 
 //////////////////////////////
+
+
+
+
+
+
+
+
+/*function loadfiles()
+{
+    var imageFiles = document.getElementById("fileUpload"),
+    filesLength = imageFiles.files.length;
+    for (var i = 0; i < filesLength; i++) {
+      document.write(imageFiles.files[i].name);
+    }
+    console.log(imageFiles)
+}*/
+/*var input = document.getElementById('fileUpload')
+var fileList = [];
+
+input.addEventListener('change', function (evnt){
+  fileList = [];
+  for(let i = 0; i<input.files.length; i++){
+    fileList.push(input.files[i]);
+  }
+});
+
+var fileCatcher = document.getElementById('fileCatcher');
+
+fileCatcher.addEventListener('submit', function(evnt){
+  evnt.preventDefault();
+  fileList.forEach(function(file){
+    sendfile(file);
+  });
+});
+
+sendfile = function (file){
+  var formData = new FormData();
+  var request = new XMLHttpRequest();
+
+  formData.set('file', file);
+  request.open("POST", '/data');
+  request.send(formData);
+}*/
+
+//////////////////////////////////////
+
+//image upload
+
+//var files = document.getElementById('files');
+
+//files.addEventListener('submit')
+
 
 /*addDataForm.addEventListener('submit', async (evt) => {
   evt.preventDefault();

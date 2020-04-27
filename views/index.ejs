@@ -4,15 +4,16 @@
     <img src="/img/shopfast-logo-full.png" alt="logo">
     <div id="formContainer">
         <h2>Add your product for sale</h2>
-        <form action="/data" method="post" enctype="multipart/form-data" id="add-data-form" class="light-border">
+        <form id="fileCatcher" action="/data" method="post" enctype="multipart/form-data" id="add-data-form" class="light-border">
         <input class="light-border" type="text" name="name" placeholder="Name" required>
         <input class="light-border" type="text" name="owner_id" placeholder="Owner_id" required>
         <input class="light-border" type="text" name="price_flex" placeholder="Price_flex" required>
         <input class="light-border" type="text" name="price"  placeholder="Price" required>
         <input class="light-border" type="text" name="description" placeholder="Description" required>
         <input class="light-border" type="text" name="location" placeholder="Location" required>
-        <input class="light-border" type="file" name="url" accept="image/*" placeholder="Choose file">
-        <button class="light-border" type="submit">Save</button>
+        <input class="light-border" type="file" name="url[]" id="fileUpload" accept="image/*" placeholder="Choose file" multiple="">
+        <button id="intoArray">Submit</button>
+        <button class="light-border" type="submit" id="saveButton">Save</button>
         </form>
     </div>
         
