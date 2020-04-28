@@ -2,6 +2,9 @@
 const socket = io.connect();
 const urlParams = new URLSearchParams(window.location.search);
 
+
+
+/*
 var path = window.location.pathname;
 path = path[0] == '/' ? path.substr(11) : path;
 
@@ -33,14 +36,11 @@ let connectedUsers;
 
 //aika
 
-
-
 function SendMessage() {
-
 	var messageToSend = message.value
 	var userToWhisper = messageToSend.substr(1, messageToSend.indexOf(' ')).replace(/\s/g, '');
 	var parsedMessage = messageToSend.substr(messageToSend.indexOf(' ') + 1);
-	/* tarkistaa viestin ja lähettää sen serverille*/
+	/* tarkistaa viestin ja lähettää sen serverille
 	if (message.value == "" || message.value < 1) {
 		message.value = null;
 	}
@@ -70,7 +70,7 @@ function SendMessage() {
 	}
 
 }
-/*<<--here we check for keypress and send the message as we detect one */
+/*<<--here we check for keypress and send the message as we detect one 
 message.onkeypress = function (evt) {
 	evt = evt || window.event;
 	var charCode = evt.keyCode || evt.which;
@@ -84,7 +84,7 @@ message.onkeypress = function (evt) {
 
 //Listen for events
 function ClearMessage(){
-	document.getElementById("eventBox").innerHTML ="<i style='/*! color: gray;' */>-------------</i>"
+	document.getElementById("eventBox").innerHTML ="<i style='/*! color: gray;' >-------------</i>"
 }
 
 
@@ -110,4 +110,4 @@ socket.on("whisperToUser", function (data) {
 });
 
 
-
+*/

@@ -8,14 +8,7 @@ const { ensureAuthenticated} = require('../controllers/auth')
 
 // Front page here
 router.get('/frontpage',ensureAuthenticated, (req,res) => {
-    res.render('messages',{
-        name: req.user.username,
-        email: req.user.email,
-        id :req.user.id
-    })})
-
-router.get('/messages',ensureAuthenticated, (req,res) => {
-    res.render('messages',{
+    res.render('frontpage',{
         name: req.user.username,
         email: req.user.email
     })})
