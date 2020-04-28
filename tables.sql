@@ -31,8 +31,10 @@ message char(255) NOT NULL
 
 CREATE TABLE User_message_relation(
 user_id int(11) NOT NULL ,
+sent_user_id int(11) NOT NULL,
 message_id int(11) NOT NULL,
 FOREIGN KEY (user_id) REFERENCES Users(id),
+FOREIGN KEY (sent_user_id) REFERENCES Users(id),
 FOREIGN KEY (message_id) REFERENCES Message(id)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
@@ -92,3 +94,44 @@ INSERT INTO Picture (url) VALUES
 
 INSERT INTO Picture (url) VALUES
 ('http://placekitten.com/400/300');
+
+**/
+
+/* Dummy chat data */
+
+/*jalmari 21 nilsson 20*/
+
+INSERT INTO Message VALUES (1, "jou jou taa on viesti sulle");
+INSERT INTO Message VALUES (2, "toinen viesti");
+INSERT INTO Message VALUES (3, "kolmas viesti");
+INSERT INTO Message VALUES (4, "neljas viesti");
+INSERT INTO Message VALUES (5, "viides viesti");
+INSERT INTO Message VALUES (6, "kuudes viesti");
+
+INSERT INTO User_message_relation VALUES (20,21,1);
+INSERT INTO User_message_relation VALUES (21,20,2);
+INSERT INTO User_message_relation VALUES (20,21,3);
+INSERT INTO User_message_relation VALUES (21,20,4);
+INSERT INTO User_message_relation VALUES (20,21,5);
+INSERT INTO User_message_relation VALUES (20,21,6);
+
+SELECT Message.message, User_message_relation.user_id
+FROM Message 
+INNER JOIN User_message_relation ON User_message_relation.user_id = 20 OR User_message_relation.sent_user_id = 20
+WHERE Message.id = User_message_relation.message_id
+
+/*############################################*/
+
+SELECT id, Name, price_flex, price, description, location
+FROM Product
+
+SELECT url
+FROM Picture
+INNER JOIN Product_picture_relation ON Product_picture_relation.product_id = ?
+WHERE Picture.id = Product_picture_relation.picture_id
+
+/*SELECT url
+FROM Picture
+  INNER JOIN Product_picture_relation ON product_id = ?
+WHERE Picture.id = Product_picture_relation.picture_id
+*/

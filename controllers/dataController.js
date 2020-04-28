@@ -9,8 +9,29 @@ const image_get =  async (req, res) => {
   };
 
 const products_get = async (req,res) => {
-  const products = await dataModel.getAllProducts();
-  res.json(products);
+  let products = await dataModel.getAllProducts();
+  var productsWithImages = []
+  products.forEach(element => {
+    dataModel.getImage(element.id)
+    .then( tempUrls => {
+          productsWithImages.push({
+      id: element.id,
+      name: element.name,
+      urls: tempUrls
+    })
+    })
+
+  });
+
+  console.log(productsWithImages)
+};
+
+
+const images_get = async (req,res) => {
+  console.log("images called")
+  const images = await dataModel.getAllImages();
+  res.json(images);
+  console.log(images)
 };
 
 const data_post = async (req, res) => {
@@ -38,21 +59,17 @@ const data_post = async (req, res) => {
     req.body.location, 
   ];
 
-const pictures= []
-  if(!pic1.filename == null){
-    pictures.push(pic1.filename)
+const pictures=[];
+  if(!pictures.push(pic1.filename) === null){
   }
-  if(!pic2.filename == null){
-    pictures.push(pic2.filename)
+  if(!pictures.push(pic2.filename) === null){
   }
-  if(!pic3.filename == null){
-    pictures.push(pic3.filename)
+  if(!pictures.push(pic3.filename) === null){
   }
-
-
-  const mergedData = await dataModel.insertData(data, pictures);
-  console.log('inserted', mergedData)
   
+  
+  const mergedData = await dataModel.insertData(data, pictures);
+  console.log(mergedData)
 }catch(e) {
   console.log(e);
 }
@@ -66,6 +83,7 @@ const pictures_get = async (req,res) => {
   module.exports = {
     image_get,
     products_get,
+    images_get,
     pictures_get,
     data_post,
   };

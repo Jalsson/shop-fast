@@ -43,7 +43,7 @@ router.post('/register',(req,res) => {
     }else{
         userModel.selectUser({email: email})
         .then(user => {
-                if(user[0]){
+                if(user){
                         // User exits 
                         errors.push({msg: 'Username or email already exits'})
                         res.render("register",{

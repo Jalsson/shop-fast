@@ -48,8 +48,7 @@ app.use(express.static('views'));
 app.use('/', require('./routes/index'))
 app.use('/users', require('./routes/users'))
 app.use('/data', require('./routes/dataRoute'))
-
-
+app.use('/chat', require('./routes/messages'))
 
 const PORT = process.env.PORT || 5000
 

@@ -1,4 +1,4 @@
-console.log('runnaa')
+
 const url = 'http://localhost:5000';
 
 const mainHeader = document.querySelector('#main')
@@ -6,33 +6,87 @@ const addDataForm = document.querySelector('#add-data-form');
 
 
 const createProductDivs = (products) => {
-    
+    console.log(products)
     products.forEach((element) => {
-        
-    
-    console.log('test 2')
-    //create image
-    const img = document.createElement('img');
-    img.src = url + '/' + element.url;
-    img.alt = "random";
+
+    //saleBoard div
     const div = document.createElement('div');
     div.className = "saleBoard";
-    
+
+      //product name header
     const h1 = document.createElement('h1');
     const desc = document.createTextNode(element.Name);
     h1.appendChild(desc);
 
+    //price
     const price = document.createElement('h2');
     const amount = document.createTextNode('Price: '+element.price+'€');
     price.appendChild(amount)
 
-    div.appendChild(img);
+    //slide buttons
+
     div.appendChild(h1);
     div.appendChild(price);
-
     mainHeader.appendChild(div);
-});
+
+    });
+
+    //images.forE
+    /*products.forEach((element) => {
+    console.log(element)
+    //create image
+    const img = document.createElement('img');
+    img.className = "slideImage"
+    img.src = url + '/' + element.url;
+    img.alt = "picture";
+
+    //images to div
+    div.appendChild(img);*/
+    
+   
+//});
+
+     //product name header
+    /*const h1 = document.createElement('h1');
+    const desc = document.createTextNode(products[0].Name);
+    h1.appendChild(desc);
+
+    //price
+    const price = document.createElement('h2');
+    const amount = document.createTextNode('Price: '+products[0].price+'€');
+    price.appendChild(amount)
+
+    //slide buttons
+
+    const button1 = document.createElement('button');
+    button1.className = "minusSlide";
+    const filling = document.createTextNode('asd');
+    button1.appendChild(filling);
+
+    const button2 = document.createElement('button');
+    button2.className = "plusSlide";
+    const filling2 = document.createTextNode('asd')
+    button2.appendChild(filling2)
+
+    div.appendChild(h1);
+    div.appendChild(price);
+    div.appendChild(button1);
+    div.appendChild(button2);
+    mainHeader.appendChild(div);
+
+
+    document.querySelector(".minusSlide").addEventListener("click", plusDivs(-1));
+    document.querySelector(".plusSlide").addEventListener("click", plusDivs(1));*/
+   
+    
 }
+const createInsertImagesToDiv = (images) => {
+  console.log(images)
+  products.forEach((element) => {
+    
+  });
+}
+
 const getProducts = async () => {
     try {
       const response = await fetch(url + '/data');
@@ -40,17 +94,18 @@ const getProducts = async () => {
       createProductDivs(products);
     }
     catch (e) {
-      console.log(e.message);
+      console.log("error " +e.message);
     }
   };
   getProducts();
 ///////////////////////////////
 
 //image slide
-  var slideIndex = 1;
+  /*var slideIndex = 1;
   showDivs(slideIndex);
   
   function plusDivs(n) {
+    console.log("slide runs")
     showDivs(slideIndex += n);
   }
   
@@ -62,7 +117,7 @@ const getProducts = async () => {
     for (i = 0; i < x.length; i++) {
       x[i].style.display = "none";  
     }
-    x[slideIndex-1].style.display = "block";  }
+    x[slideIndex-1].style.display = "block";  }*/
 
 //////////////////////////////
 
