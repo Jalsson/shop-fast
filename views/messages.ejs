@@ -55,7 +55,8 @@
     let conversationNames = []
     let conversationTexts = []
     //gets all different conversations
-  for (let i = 0,l=messages.length; i < l; i++) {
+
+  for (let i = (messages.length -1); i >= 0; i--) {
     if(messages[i].user_id == myID ) continue
 
       let found = false
@@ -80,10 +81,17 @@
         userLastMessage.style = "font-size: 19px;"
 
         userNameDiv.innerHTML = messages[i].sender
-        userLastMessage.innerHTML = messages[i].message
+        
 
         display.appendChild(userBox)
         userBox.appendChild(userNameDiv)
+        for (let x = (messages.length -1); x >= 0; x--) {
+          console.log("messages[i].user_id " +messages[i].user_id+" messages[i].sent_user_id "+ messages[i].sent_user_id+ " messages[x].user_id " +messages[x].user_id+" messages[x].sent_user_id "+ messages[x].sent_user_id)
+          if ((messages[i].user_id === messages[x].user_id && messages[i].sent_user_id === myID) || (messages[x].user_id === myID && messages[x].sent_user_id === messages[i].user_id)) {
+            userLastMessage.innerHTML = messages[x].message
+            break
+          }
+        }
         userBox.appendChild(userLastMessage)
       }
   }
