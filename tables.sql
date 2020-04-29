@@ -9,7 +9,7 @@ password CHAR(120) NOT NULL
 
 CREATE TABLE Product(
 id int(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
-Name CHAR(50) NOT NULL,
+name CHAR(50) NOT NULL,
 owner_id int(11) NOT NULL,
 price_flex CHAR(80) NOT NULL,
 price double(20,2) NOT NULL,
@@ -47,7 +47,7 @@ url CHAR(80) NOT NULL
 
 
 ########################################
-
+//
 CREATE TABLE Product_picture_relation(
 product_id int(11) NOT NULL ,
 picture_id int(11) NOT NULL,

@@ -1,33 +1,74 @@
-
-
 <div id="Header">
-    <img src="/img/shopfast-logo-full.png" alt="logo">
-    <div id="formContainer">
-        <h2>Add your product for sale</h2>
-        <form id="fileCatcher" action="/data" method="post" enctype="multipart/form-data" id="add-data-form" class="light-border">
-        <input class="light-border" type="text" name="name" placeholder="Name" required>
-        <input class="light-border" type="text" name="owner_id" placeholder="Owner_id" required>
-        <input class="light-border" type="text" name="price_flex" placeholder="Price_flex" required>
-        <input class="light-border" type="text" name="price"  placeholder="Price" required>
-        <input class="light-border" type="text" name="description" placeholder="Description" required>
-        <input class="light-border" type="text" name="location" placeholder="Location" required>
-        <input class="light-border" type="file" name="url[]" id="fileUpload" accept="image/*" placeholder="Choose file" multiple="">
-        <button id="intoArray">Submit</button>
-        <button class="light-border" type="submit" id="saveButton">Save</button>
-        </form>
-    </div>
-        
-    
-    
+  <h1>SHOP FAST</h1>
 </div>
+<div id="siteContainer">
+  <div id="main"></div>
 
-<div id="main">
-    <!--<div class="saleBoard">
-        <img class="slideImage" src="http://placekitten.com/400/300">
-        <img class="slideImage" src="http://placekitten.com/400/302">
-        <button class="minusSlide">&#10094;</button>
-        <button class="plusSlide">&#10095;</button>
-    </div>-->
+  <div id="sidebar">
+  <div id="formContainer">
+    <h2>Add your product for sale</h2>
+    <form
+      id="fileCatcher"
+      action="/data"
+      method="post"
+      enctype="multipart/form-data"
+      id="add-data-form"
+      class="light-border"
+    >
+      <input
+        class="light-border"
+        type="text"
+        name="name"
+        placeholder="Name"
+        required
+      />
+      <input
+        class="light-border"
+        type="text"
+        name="owner_id"
+        placeholder="Owner_id"
+        required
+      />
+      <input
+        class="light-border"
+        type="text"
+        name="price_flex"
+        placeholder="Price_flex"
+        required
+      />
+      <input
+        class="light-border"
+        type="text"
+        name="price"
+        placeholder="Price"
+        required
+      />
+      <input
+        class="light-border"
+        type="text"
+        name="description"
+        placeholder="Description"
+        required
+      />
+      <input
+        class="light-border"
+        type="text"
+        name="location"
+        placeholder="Location"
+        required
+      />
+      <input
+        class="light-border"
+        type="file"
+        name="url[]"
+        id="fileUpload"
+        accept="image/*"
+        placeholder="Choose file"
+        multiple=""
+      />
+      <button class="light-border" type="submit" id="saveButton">Save</button>
+    </form>
+  </div>
 </div>
-
+</div>
 <script type="text/javascript" src="/js/index.js"></script>

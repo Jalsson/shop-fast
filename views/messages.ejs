@@ -1,63 +1,120 @@
 <h1 class="mt-4">Messages</h1>
 <p class="lead mb-3">Welcome </p>
 <a href="/users/logout" class="btn btn-secondary">Logout</a>
-<link rel="stylesheet" type="text/css"   href="/css/chat.css">
-<script>
-  const myID = <%- id %>
-  const messages =  <%- messages %>
-  let conversationIDs = []
-  for (let i = 0; i < messages.length; i++) {
-    if (conversationIDs.indexOf(messages[i].user_id) === -1 && messages[i].user_id != myID) {
-      
-      conversationIDs.push(messages[i].user_id)
-    }
-  }
+<link rel="stylesheet" type="text/css" href="/css/chat.css">
 
- console.log(conversationIDs)
-
-</script>
 <div class="flex-container">
-    <div class="users-window">
-      <div class="user">
-        <div class="user-text">
-            username
-        </div>
-        <div class="user-text" style="font-size: 19px;">
-          last message was this and this and it said things about our society
-        </div>
+  <div class="users-window" id="users-display-window">
+    <div class="user">
+      <div class="user-text" id="username-text">
+        username
       </div>
-
-    </div>
-    <div class="chat-window">
-      <div class="chat-footer">
-        <div class="user-text">
-          username
-      </div>
-        <div class="user-text" style="font-size: 19px;">
-          last seen or some other shit here
-        </div>
-      </div>
-
-      <div class="chat-body">
-        <div class="message-container user-message">
-          <div class="message">  hello</div>
-        </div>
-        <div class="message-container otheruser-message">
-          <div class="message"> hello to you</div>
-        </div>
-        <div class="message-container otheruser-message">
-          <div class="message"> hello to you</div>
-        </div>
-        <div class="message-container otheruser-message">
-          <div class="message"> hello to you</div>
-        </div>
-      </div>
-
-      <div class="chat-footer">
-        <input class="chat-messagebox" type="text" >
-        <button><h1>Send</h1></button>
+      <div class="user-text" style="font-size: 19px;" id="user-info">
+        last message was this and this and it said things about our society
       </div>
     </div>
   </div>
-  <script src="/JS/chat.js"></script>
+  <div class="chat-window">
+    <div class="chat-footer">
+      <div class="user-text">
+        username
+      </div>
+      <div class="user-text" style="font-size: 19px;">
+        last seen or some other shit here
+      </div>
+    </div>
 
+    <div class="chat-body" id="chat-body">
+      <div class="message-container user-message">
+        <div class="message"> hello</div>
+      </div>
+      <div class="message-container otheruser-message">
+        <div class="message"> hello to you</div>
+      </div>
+      <div class="message-container otheruser-message">
+        <div class="message"> hello to you</div>
+      </div>
+      <div class="message-container otheruser-message">
+        <div class="message"> hello to you</div>
+      </div>
+    </div>
+
+    <div class="chat-footer">
+      <input class="chat-messagebox" type="text">
+      <button>
+        <h1>Send</h1>
+      </button>
+    </div>
+  </div>
+</div>
+
+<script>
+  const myID = <%- id %>
+  const myName = <%- "name" %>
+  const messages =  <%- messages %>
+    let conversationNames = []
+    let conversationTexts = []
+    //gets all different conversations
+  for (let i = 0,l=messages.length; i < l; i++) {
+    if(messages[i].user_id == myID ) continue
+
+      let found = false
+    for (let z = 0; z < conversationNames.length; z++) {
+      if (conversationNames[z].user_id === messages[i].user_id && messages[i].user_id != myID) {
+        found = true
+      }
+    }
+    if(!found) {
+        conversationNames.push({
+          user_id: messages[i].user_id,
+          username: messages[i].sender
+        })
+        const display = document.querySelector("#users-display-window");
+        let userBox = document.createElement("div")
+        let userNameDiv = document.createElement("div")
+        let userLastMessage = document.createElement("div")
+
+        userBox.className = "user"
+        userNameDiv.className = "user-text"
+        userLastMessage.className = "user-text"
+        userLastMessage.style = "font-size: 19px;"
+
+        userNameDiv.innerHTML = messages[i].sender
+        userLastMessage.innerHTML = messages[i].message
+
+        display.appendChild(userBox)
+        userBox.appendChild(userNameDiv)
+        userBox.appendChild(userLastMessage)
+      }
+  }
+
+function populateChat(otherID){
+  const usernameText = document.querySelector("#username-text");
+  const usernameInfo = document.querySelector("#user-info");
+  const Chat = document.querySelector("#chat-body");
+    Chat.innerHTML = ""
+
+  for (let i = 0; i < messages.length; i++) {
+
+    let chatBox = document.createElement("div")
+    let chatText = document.createElement("div")
+    chatText.className = "message"
+
+      Chat.appendChild(chatBox)
+      chatBox.appendChild(chatText)
+
+    if (messages[i].sent_user_id == otherID && messages[i].user_id == myID) {
+      usernameText.innerHTML = messages[i].sender
+      chatBox.className = "message-container user-message";
+    }
+    else if(messages[i].sent_user_id == myID && messages[i].user_id == otherID){
+      usernameText.innerHTML = messages[i].receiver
+      chatBox.className = "message-container otheruser-message";
+    }
+    chatText.innerHTML = messages[i].message
+    
+  }
+}
+
+</script>
+<script src="/JS/chat.js"></script>

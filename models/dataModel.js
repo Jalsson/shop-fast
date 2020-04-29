@@ -10,17 +10,16 @@ const getImage = async (id) => {
     console.log('error', e.message);
   }
 };
-
+//
 const getAllProducts = async (id) => {
   try{
     //const[rows] = await promisePool.query('SELECT Product.Name, Product.price_flex, Product.price, Product.description, Product.location, Picture.url FROM Product, Picture WHERE Product.id = Picture.id;');
     //return rows
     //const [rows] = await promisePool.query('SELECT Product.Name, Product.price_flex, Product.price, Product.description, Product.location, Picture.url FROM Product, Picture, Product_picture_relation WHERE Product.id = Product_picture_relation.product_id AND Product_picture_relation.picture_id = Picture.id;');
     //return rows
-    const [rows] = await promisePool.query('SELECT id, Name, price_flex, price, description, location FROM Product');
-   
+    const [rows] = await promisePool.query('SELECT id, name, owner_id, price_flex, price, description, location FROM Product');
     return rows
-    
+    //
   }catch(e){
     console.log('error', e.message);
   }
@@ -43,15 +42,16 @@ WHERE Picture.id = Product_picture_relation.picture_id
 const insertData = async (data, pictures) => {
   try {
     //console.log('inserting data', data, picture);
-    const [dataRows] = await promisePool.query('INSERT INTO Product (Name, owner_id, price_flex, price, description, location) VALUES (?, ?, ?, ?, ?, ?)', data);
+    const [dataRows] = await promisePool.query('INSERT INTO Product (name, owner_id, price_flex, price, description, location) VALUES (?, ?, ?, ?, ?, ?)', data);
     const dataInsertId = dataRows.insertId;
     console.log(dataInsertId);
   
     let pictureInsert = []
     let pictureId = []
 
-
+    console.log("picture length: " +pictures.length)
     for(let z = 0; z < pictures.length; z++){
+      console.log('inside loop')
     let picture = pictures[z];
     let [pictureInsert] = await promisePool.query('INSERT INTO Picture (url) VALUES (?)', picture);
     pictureId.push(pictureInsert.insertId);
