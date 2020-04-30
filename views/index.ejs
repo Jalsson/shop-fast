@@ -1,5 +1,26 @@
+<div class="hide modal" id="image-modal">
+  <a href="#" class="close">Close</a>
+  <img src="" alt="">
+</div>
 <div id="Header">
+  <img src="/public/images/shopfast-logo-full.png" alt="logo">
   <h1>SHOP FAST</h1>
+  <div id="formContainer">
+    <form
+      id="filterForm"
+      action="/data/pic"
+      method="get"
+      class="light-border"
+    >
+    <input
+    class="light-border"
+    type="text"
+    name="location"
+    placeholder="location"
+    required />
+    <button class="light-border" type="submit" id="filterButton">Filter</button>
+    </form>
+  </div>
 </div>
 <div id="siteContainer">
   <div id="main"></div>
@@ -9,7 +30,7 @@
     <h2>Add your product for sale</h2>
     <form
       id="fileCatcher"
-      action="/data"
+      action="/data/"
       method="post"
       enctype="multipart/form-data"
       id="add-data-form"

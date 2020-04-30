@@ -2,10 +2,16 @@ const mainUrl = "http://localhost:5000";
 
 const mainHeader = document.querySelector("#main");
 const addDataForm = document.querySelector("#add-data-form");
+
+const imageModal = document.querySelector('#image-modal');
+const modalImage = document.querySelector('#image-modal img');
+
+const header = document.querySelector("#Header");
+const siteContainer = document.querySelector("#siteContainer");
 let divNumber = 1
 let called = 0
 const createProductDivs = (products) => {
-  console.log(products);
+  
   products.forEach((element) => {
     console.log(element.urls[0].url);
     //saleBoard div
@@ -15,27 +21,19 @@ const createProductDivs = (products) => {
     //product name header
     const name = document.createElement("h2");
     const desc = document.createTextNode(element.name);
-    name.appendChild(desc);
+    
 
     //price
     const price = document.createElement("h2");
     const amount = document.createTextNode("Price: " + element.price + "€");
-    price.appendChild(amount);
-    div.appendChild(name);
-    div.appendChild(price);
-
+    
     const button1 = document.createElement('button');
     button1.id = "minusSlide";
     const filling = document.createTextNode('<');
-    button1.appendChild(filling);
-    div.appendChild(button1)
 
     const button2 = document.createElement('button');
     button2.id = "plusSlide";
     const filling2 = document.createTextNode('>')
-    button2.appendChild(filling2)
-    div.appendChild(button2)
-
     
     button1.addEventListener('click', function(){
       id = div.id
@@ -45,7 +43,7 @@ const createProductDivs = (products) => {
       }
       plusDivs(-1, id);
     });
-
+//
     button2.addEventListener('click', function(){
       id = div.id
       if(called === 0){
@@ -69,8 +67,26 @@ const createProductDivs = (products) => {
       }else{
         image.style.display = "block"
       }
+      image.addEventListener('click', () => {
+        imageModal.classList.remove('hide');
+        modalImage.src = image.src;
+        modalImage.alt = image.alt;
+
+        header.style.visibility = "hidden"
+        siteContainer.style.visibility = "hidden"
+      });
+
       div.appendChild(image);
     }
+    name.appendChild(desc);
+    price.appendChild(amount);
+    div.appendChild(name);
+    div.appendChild(price);
+    button1.appendChild(filling);
+    div.appendChild(button1)
+    button2.appendChild(filling2)
+    div.appendChild(button2)
+
     mainHeader.appendChild(div);
 
   });
@@ -88,44 +104,15 @@ const getProducts = async () => {
 };
 getProducts();
 
-
-
-///////////////////////////////
-
-//image slide
-
-  
-
-
-/*function prevImage(id){
-//const visibleImage = document.querySelector("#"+id).querySelector('img[style^="display: block"]')
-//visibleImage.style.display = "none"
-var x = document.querySelector("#"+id).getElementsByTagName("img");
-if (n > x.length) {slideIndex = 1}
-if (n < 1) {slideIndex = x.length}
-console.log(visibleImage)
-}
-
-function nextImage(id){
-  console.log(id)
-}
- */
-  /*function plusDivs(n) {
-    console.log("slide runs")
-    showDivs(slideIndex += n);
-  }
-  
-  function showDivs(n) {
-    var i;
-    var x = document.getElementsByTagName("img");
-    if (n > x.length) {slideIndex = 1}
-    if (n < 1) {slideIndex = x.length}
-    for (i = 0; i < x.length; i++) {
-      x[i].style.display = "none";  
-    }
-    x[slideIndex-1].style.display = "block";  }*/
-
 //////////////////////////////
+const close = document.querySelector(".close")
+close.addEventListener('click', (evt)=>{
+  evt.preventDefault();
+  imageModal.classList.add('hide');
+  header.style.visibility = "visible"
+  siteContainer.style.visibility = "visible"
+});
+
 var slideIndex = 0;
 function slideSetup(id){
   console.log("called slideSetup")

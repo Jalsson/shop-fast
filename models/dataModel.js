@@ -49,7 +49,7 @@ const insertData = async (data, pictures) => {
     let pictureInsert = []
     let pictureId = []
 
-    console.log("picture length: " +pictures.length)
+    
     for(let z = 0; z < pictures.length; z++){
       console.log('inside loop')
     let picture = pictures[z];
@@ -57,16 +57,15 @@ const insertData = async (data, pictures) => {
     pictureId.push(pictureInsert.insertId);
     }
 
-    console.log("pic ID "+pictureId)
-    console.log("pic ID length "+ pictureId.length)
+   
     
     for(let i = 0; i< pictureId.length; i++){
       let picId = pictureId[i]
-      console.log(picId)
+      
       let [relation] = await promisePool.query('INSERT INTO Product_picture_relation (product_id, picture_id) VALUES (?, ?)', [dataInsertId, picId ]);
     }
 
-    console.log("inserted Product ID " + dataInsertId)
+    
     return dataRows, pictureInsert;
     
   } catch (e) {
@@ -84,10 +83,20 @@ const getPictures = async (id) =>{
   }
 }
 
+const filterProducts = async (location) =>{
+  try{
+    const [filtered] = promisePool.query('SELECT id, name, owner_id, price_flex, price, description, location FROM Product WHERE location = ?', [location]);
+    console.log(filtered)
+    return filtered
+  }catch(e){
+    console.log('error', e.message);
+  }
+};
 module.exports = {
     getImage,
     getAllProducts,
     getAllImages,
     getPictures,
     insertData,
+    filterProducts,
   };

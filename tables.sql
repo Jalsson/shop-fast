@@ -135,3 +135,5 @@ FROM Picture
   INNER JOIN Product_picture_relation ON product_id = ?
 WHERE Picture.id = Product_picture_relation.picture_id
 */
+
+SELECT id, name, owner_id, price_flex, price, description, location FROM Product WHERE location = ?;

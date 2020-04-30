@@ -9,8 +9,8 @@ const dataController = require('../controllers/dataController');
 router.get('/',dataController.products_get);
 router.get('/pics', dataController.pictures_get);
 router.get('/pic', (req,res) => {res.render('index')});
-
-
+router.get('/pic/filter', dataController.getFilteredImages)
+//
 router.post('/', upload.array('url[]', 3), dataController.data_post);
 
 

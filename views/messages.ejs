@@ -16,10 +16,10 @@
   </div>
   <div class="chat-window">
     <div class="chat-footer">
-      <div class="user-text">
+      <div class="user-text" id="username-text">
         username
       </div>
-      <div class="user-text" style="font-size: 19px;">
+      <div class="user-text" style="font-size: 19px;" id="user-info">
         last seen or some other shit here
       </div>
     </div>
@@ -40,8 +40,8 @@
     </div>
 
     <div class="chat-footer">
-      <input class="chat-messagebox" type="text">
-      <button>
+      <input class="chat-messagebox" type="text" id="message-field">
+      <button id="send-button" onclick="sendMessage(event)">
         <h1>Send</h1>
       </button>
     </div>
@@ -70,12 +70,19 @@
           user_id: messages[i].user_id,
           username: messages[i].sender
         })
-        const display = document.querySelector("#users-display-window");
+        const display = document.querySelector("#users-display-window")
         let userBox = document.createElement("div")
         let userNameDiv = document.createElement("div")
         let userLastMessage = document.createElement("div")
+        display.innerHTML= ''
 
         userBox.className = "user"
+        userBox.dataset.userId = messages[i].user_id
+      
+        userBox.onclick = (event) => {
+          populateChat(event.target.parentElement.dataset.userId)
+        }
+
         userNameDiv.className = "user-text"
         userLastMessage.className = "user-text"
         userLastMessage.style = "font-size: 19px;"
@@ -97,8 +104,10 @@
   }
 
 function populateChat(otherID){
-  const usernameText = document.querySelector("#username-text");
-  const usernameInfo = document.querySelector("#user-info");
+  const usernameText = document.querySelector("#username-text")
+  const usernameInfo = document.querySelector("#user-info")
+  const sendButton = document.querySelector("#send-button")
+
   const Chat = document.querySelector("#chat-body");
     Chat.innerHTML = ""
 
@@ -112,12 +121,14 @@ function populateChat(otherID){
       chatBox.appendChild(chatText)
 
     if (messages[i].sent_user_id == otherID && messages[i].user_id == myID) {
-      usernameText.innerHTML = messages[i].sender
-      chatBox.className = "message-container user-message";
+      usernameText.innerHTML = messages[i].receiver
+      chatBox.className = "message-container user-message"
+      sendButton.dataset.userId = messages[i].sent_user_id
     }
     else if(messages[i].sent_user_id == myID && messages[i].user_id == otherID){
-      usernameText.innerHTML = messages[i].receiver
-      chatBox.className = "message-container otheruser-message";
+      usernameText.innerHTML = messages[i].sender
+      chatBox.className = "message-container otheruser-message"
+      sendButton.dataset.userId = messages[i].user_id
     }
     chatText.innerHTML = messages[i].message
     
