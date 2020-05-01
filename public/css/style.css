@@ -21,6 +21,7 @@ body{
     align-content: flex-start;
     flex-wrap: wrap;
     background-color: gray;
+    min-width: 55%;
     max-width: 55%;
     margin-left: 20%;
     margin-right: 0%;
@@ -30,6 +31,7 @@ body{
 #Header{
     
     margin-left: 20%;
+    min-width: 55%;
     margin-right: 25%;
     background-color: blue;
 }
@@ -122,13 +124,14 @@ input[type=text], select {
 }
 
 .modal {
-  top: 0;
-  left: 0;
-  width: 100%;
-  max-height: 100vh;
+  width: 80%;
+  margin-left: 10%;
+  margin-right: 10%;
+  min-height: 15vh;
   background-color: rgba(0,0,0,.5);
-  position: fixed;
+  
 }
+
 
 .modal img {
   display: block;
@@ -137,12 +140,26 @@ input[type=text], select {
 }
 
 .close {
-  position: absolute;
+  
   top: 1em;
   right: 1em;
   color: #fff;
   text-shadow: #000;
   font-size: 2em;
+}
+
+#chatHeader{
+  text-align: center;
+}
+
+#chatStart{
+  display: none;
+  background-color: grey;
+  margin-top: 2vh;
+  margin-left: 20%;
+  margin-right: 20%;
+  width: 60%;
+  height: 100vh;
 }
   @media only screen and (max-width: 1550px){
     #sidebar{

@@ -8,6 +8,8 @@ const modalImage = document.querySelector('#image-modal img');
 
 const header = document.querySelector("#Header");
 const siteContainer = document.querySelector("#siteContainer");
+const chatStart = document.querySelector("#chatStart");
+
 let divNumber = 1
 let called = 0
 const createProductDivs = (products) => {
@@ -71,9 +73,9 @@ const createProductDivs = (products) => {
         imageModal.classList.remove('hide');
         modalImage.src = image.src;
         modalImage.alt = image.alt;
-
-        header.style.visibility = "hidden"
         siteContainer.style.visibility = "hidden"
+        header.style.visibility = "hidden"
+        chatStart.style.display = "block"
       });
 
       div.appendChild(image);
@@ -111,6 +113,7 @@ close.addEventListener('click', (evt)=>{
   imageModal.classList.add('hide');
   header.style.visibility = "visible"
   siteContainer.style.visibility = "visible"
+  chatStart.style.display = "none"
 });
 
 var slideIndex = 0;

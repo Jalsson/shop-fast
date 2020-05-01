@@ -13,26 +13,26 @@ const image_get = async (req, res) => {
 const products_get = async (req, res) => {
   let products = await dataModel.getAllProducts();
   var productsWithImages = [];
-
+  
   for (let i = 0; i < products.length; i++) {
-      dataModel.getImage(products[i].id)
-      .then(tempUrls => {
-        productsWithImages.push({
-          id: products[i].id,
-          name: products[i].name,
-          owner_id: products[i].owner_id,
-          price_flex: products[i].price_flex,
-          price: products[i].price,
-          description: products[i].description,
-          location: products[i].location,
-          urls: tempUrls, 
-        });
-        if(i === products.length -1){
-        res.json(productsWithImages);
-        
-      }
-      })
-  }
+    dataModel.getImage(products[i].id)
+    .then(tempUrls => {
+      productsWithImages.push({
+        id: products[i].id,
+        name: products[i].name,
+        owner_id: products[i].owner_id,
+        price_flex: products[i].price_flex,
+        price: products[i].price,
+        description: products[i].description,
+        location: products[i].location,
+        urls: tempUrls, 
+      });
+      if(i === products.length -1){
+      res.json(productsWithImages);
+      console.log(productsWithImages)
+    }
+    })
+}//
 };
 
 const images_get = async (req, res) => {
@@ -61,6 +61,7 @@ const getFilteredImages = async (req, res) =>{
 
 const data_post = async (req, res) => {
 
+  console.log(req.user.id)
   let errors = validationResult(req);
 
   if (!errors.isEmpty()) {
@@ -87,7 +88,7 @@ const data_post = async (req, res) => {
 
     const data = [
       req.body.name,
-      req.body.owner_id,
+      req.user.id,
       req.body.price_flex,
       req.body.price,
       req.body.description,

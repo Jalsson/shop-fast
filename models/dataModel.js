@@ -3,7 +3,7 @@ const promisePool = pool.promise();
 let productId = 1
 const getImage = async (id) => {
     try {
-    const [rows] = await promisePool.query('SELECT url FROM Picture INNER JOIN Product_picture_relation ON Product_picture_relation.product_id = ? WHERE Picture.id = Product_picture_relation.picture_id', [id]);
+    const [rows] = await promisePool.execute('SELECT url FROM Picture INNER JOIN Product_picture_relation ON Product_picture_relation.product_id = ? WHERE Picture.id = Product_picture_relation.picture_id', [id]);
     
     return rows
 } catch (e) {
@@ -17,7 +17,7 @@ const getAllProducts = async (id) => {
     //return rows
     //const [rows] = await promisePool.query('SELECT Product.Name, Product.price_flex, Product.price, Product.description, Product.location, Picture.url FROM Product, Picture, Product_picture_relation WHERE Product.id = Product_picture_relation.product_id AND Product_picture_relation.picture_id = Picture.id;');
     //return rows
-    const [rows] = await promisePool.query('SELECT id, name, owner_id, price_flex, price, description, location FROM Product');
+    const [rows] = await promisePool.execute('SELECT id, name, owner_id, price_flex, price, description, location FROM Product');
     return rows
     //
   }catch(e){
@@ -26,7 +26,7 @@ const getAllProducts = async (id) => {
 }
 const getAllImages = async (id) => {
   try{
-    const [rows] = await promisePool.query('SELECT url FROM Picture INNER JOIN Product_picture_relation ON Product_picture_relation.product_id = ? WHERE Picture.id = Product_picture_relation.picture_id', [productId]);
+    const [rows] = await promisePool.execute('SELECT url FROM Picture INNER JOIN Product_picture_relation ON Product_picture_relation.product_id = ? WHERE Picture.id = Product_picture_relation.picture_id', [productId]);
     return rows
   }catch(e){
     console.log('error', e.message);
@@ -76,7 +76,7 @@ const insertData = async (data, pictures) => {
 
 const getPictures = async (id) =>{
   try{
-    const [rows] = await promisePool.query('SELECT Picture.url FROM Picture');
+    const [rows] = await promisePool.execute('SELECT Picture.url FROM Picture');
     return rows
   }catch(e){
     console.log('error', e.message);
@@ -85,7 +85,7 @@ const getPictures = async (id) =>{
 
 const filterProducts = async (location) =>{
   try{
-    const [filtered] = promisePool.query('SELECT id, name, owner_id, price_flex, price, description, location FROM Product WHERE location = ?', [location]);
+    const [filtered] = promisePool.execute('SELECT id, name, owner_id, price_flex, price, description, location FROM Product WHERE location = ?', [location]);
     console.log(filtered)
     return filtered
   }catch(e){

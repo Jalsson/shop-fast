@@ -1,6 +1,11 @@
 <div class="hide modal" id="image-modal">
   <a href="#" class="close">Close</a>
-  <img src="" alt="">
+  <div id="modalDiv">
+    <img src="" alt="">
+  </div>
+</div>
+<div id="chatStart">
+  <h1 id="chatHeader">Type your message into textfield if you are interested</h1>
 </div>
 <div id="Header">
   <img src="/public/images/shopfast-logo-full.png" alt="logo">
@@ -30,7 +35,7 @@
     <h2>Add your product for sale</h2>
     <form
       id="fileCatcher"
-      action="/data/"
+      action="/data"
       method="post"
       enctype="multipart/form-data"
       id="add-data-form"
@@ -43,13 +48,7 @@
         placeholder="Name"
         required
       />
-      <input
-        class="light-border"
-        type="text"
-        name="owner_id"
-        placeholder="Owner_id"
-        required
-      />
+     
       <input
         class="light-border"
         type="text"
