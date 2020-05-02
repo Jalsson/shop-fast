@@ -59,8 +59,6 @@ let io = socket(server);
 const connectedUsers = [];
 
 io.sockets.on("connection", (socket) => {
-
-console.log("new connections")
   /*<<<-----Function wich calculates all current connected users  (copy paste stuff)------>>>*/
   /*<<<--------------------------------------------------------------------------------->>>*/
   Object.size = function (obj) {
@@ -76,7 +74,7 @@ console.log("new connections")
 
   socket.on("newUserToServer", function (data) {
 
-    var usr = connectedUsers.find(connectedUsers => connectedUsers.userID == socket.id);
+    let usr = connectedUsers.find(connectedUsers => connectedUsers.socketID == socket.id);
     if (usr) {
       for (var i = 0; i < connectedUsers.length; i++) {
         if (connectedUsers[i] === usr) {
@@ -93,7 +91,7 @@ console.log("new connections")
     }
     socket.join(data.room)
     for (var i = 0; i < connectedUsers.length; i++) {
-      console.log(" user " + connectedUsers[i].userName + " connected with this " + connectedUsers[i].userID + " id " + i + " on socket connection  " + socket.id);
+      console.log(" user " + connectedUsers[i].userName + " connected with this " + connectedUsers[i].userID + " id " + i + " on socket connection  " + connectedUsers[i].socketID);
     }
 
 
@@ -106,7 +104,7 @@ console.log("new connections")
   /*<-------------------------------------------------------------------------------->>>*/
 
   socket.on("disconnect", (reason) => {
-    var usr = connectedUsers.find(connectedUsers => connectedUsers.userID == socket.id);
+    var usr = connectedUsers.find(connectedUsers => connectedUsers.socketID == socket.id);
     if (usr) {
       for (var i = 0; i < connectedUsers.length; i++) {
         if (connectedUsers[i] === usr) {
@@ -131,64 +129,25 @@ console.log("new connections")
       });
 
     }
-
-    
     console.log("disconnect emit: connected users size " + Object.size(connectedUsers) + " after " + socket.id + " disconnect for " + reason + " reason");
-  });
-
-  //testing if this reconnect ever launches
-  socket.on("reconnect", function (data) {
-    console.log("reconnected")
-  });
-
-  /*<<<---------Ilmoita konsolissa uusi viesti ja emittaa se muille------->>>*/
-
-  socket.on('chatToServer', function (data) {
-    io.to(data.roomToSend).emit('chat', data);
-
-    console.log(data.userName + " sended message " + data.message + " from room " + data.roomToSend + " at " +
-      data.date)
-
-    const newMessage = new Message({
-      name: data.userName,
-      message: data.message,
-      room: data.roomToSend,
-      date: data.date
-    });
-    newMessage.save()
-      .then(message => {
-      })
-      .catch(err => console.log(err));
   });
 
   /*<<<---Handles private messaging---->>>*/
 
-  socket.on("whisperToServer", (data) => {
-    var usr = connectedUsers.find(connectedUsers => connectedUsers.userName == data.userToSend);
+  socket.on("messageToServer", (data) => {
+    console.log(data.userID + " sended message " + data.message + " To user " + data.userToSend)
+    let usr = connectedUsers.find(connectedUsers => connectedUsers.userID == data.userToSend);
+    let senderUsr = connectedUsers.find(connectedUsers => connectedUsers.userID == data.userID);
+    let newData = {
+      message: data.message,
+      userToSendID: data.userToSend,
+      userToSendName: usr.userName,
+      senderID: data.userID,
+      senderName: senderUsr.userName
+    }
     if (usr) {
-      io.to(usr.userID).emit("whisperToUser", data);
-
-      console.log(data.userName + " sended message " + data.message + " To user " + data.userToSend + " at " +
-        data.date)
-      const newPrivMessage = new PrivMessage({
-        name: data.userName,
-        SendedTo: data.userToSend,
-        message: data.message,
-        date: data.date
-      });
-      newPrivMessage.save()
-        .then(message => {
-        })
-        .catch(err => console.log(err));
-
-
-      io.to(socket.id).emit("whisperToUser", data);
+      io.to(usr.socketID).emit("messageToUser", newData);
     }
-    else{
-      io.to(socket.id).emit('eventMessage',{
-        eventMessage: "cannot send private message, either username is wrong or person has left the server"
-      });
-    }
+    io.to(socket.id).emit("messageToUser", newData);
   })
 });
-

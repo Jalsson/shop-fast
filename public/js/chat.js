@@ -136,9 +136,13 @@ function sendMessage(e) {
   /* tarkistaa viestin ja lähettää sen serverille*/
 
   socket.emit("messageToServer", {
-    message: message,
+    message: message.value,
     userID: myID,
     userToSend: e.target.parentElement.dataset.userId,
   });
   message.value = "";
 }
+
+socket.on("whisperToUser", function (data) {
+	console.log(`user ${data.senderName} sended you message ${data.message}`)
+});

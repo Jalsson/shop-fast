@@ -7,9 +7,8 @@ const imageModal = document.querySelector('#image-modal');
 const modalImage = document.querySelector('#image-modal img');
 
 const header = document.querySelector("#Header");
-const siteContainer = document.querySelector("#siteContainer");
 const chatStart = document.querySelector("#chatStart");
-
+const sitecontainer = document.querySelector("#siteContainer")
 let divNumber = 1
 let called = 0
 const createProductDivs = (products) => {
@@ -73,9 +72,10 @@ const createProductDivs = (products) => {
         imageModal.classList.remove('hide');
         modalImage.src = image.src;
         modalImage.alt = image.alt;
-        siteContainer.style.visibility = "hidden"
-        header.style.visibility = "hidden"
+        sitecontainer.style.display = "none"
+        header.style.display = "none"
         chatStart.style.display = "block"
+        
       });
 
       div.appendChild(image);
@@ -111,8 +111,8 @@ const close = document.querySelector(".close")
 close.addEventListener('click', (evt)=>{
   evt.preventDefault();
   imageModal.classList.add('hide');
-  header.style.visibility = "visible"
-  siteContainer.style.visibility = "visible"
+  header.style.display = "block"
+  sitecontainer.style.display = "flex"
   chatStart.style.display = "none"
 });
 

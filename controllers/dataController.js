@@ -1,4 +1,5 @@
 const dataModel = require("../models/dataModel");
+const imageMeta = require("../utils/imageMeta")
 const { validationResult } = require("express-validator");
 let pic2 = "";
 let pic3 = "";
@@ -15,7 +16,7 @@ const products_get = async (req, res) => {
   var productsWithImages = [];
   
   for (let i = 0; i < products.length; i++) {
-    dataModel.getImage(products[i].id)
+   await dataModel.getImage(products[i].id)
     .then(tempUrls => {
       productsWithImages.push({
         id: products[i].id,
@@ -32,8 +33,9 @@ const products_get = async (req, res) => {
       console.log(productsWithImages)
     }
     })
-}//
+}
 };
+//
 
 const images_get = async (req, res) => {
   console.log("images called");
@@ -67,14 +69,31 @@ const data_post = async (req, res) => {
   if (!errors.isEmpty()) {
     return res.status(422).json({ errors: errors.array() });
   }
-
+//
   try {
     
+
     const pic1 = req.files[0];
+    const path = req.files[0].path;
+    console.log(path)
     const pictures = [];
     pictures.push(pic1.filename);
 
-    console.log(req.files[1]);
+    let coords = ""
+    try{coords = await imageMeta.getCoordinates(path);
+    }catch(e){
+      console.log("no coordinates in image")
+    }
+    console.log('coords', coords);
+    
+    let location = "";
+    if(!coords == ""){
+      location = coords;
+    }else{
+      location = req.body.location;
+    }
+
+    //console.log(req.files[1]);
     if (!req.files[1] == "") {
       pic2 = req.files[1];
       pictures.push(pic2.filename);
@@ -92,14 +111,14 @@ const data_post = async (req, res) => {
       req.body.price_flex,
       req.body.price,
       req.body.description,
-      req.body.location,
+      location,
     ];
-
+    console.log(data)
     console.log("pictures:" + pictures);
     const mergedData = await dataModel.insertData(data, pictures);
     
   } catch (e) {
-    console.log(e);
+    console.log("dataController"+e);
   }
   
 };

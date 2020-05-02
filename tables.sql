@@ -14,7 +14,7 @@ owner_id int(11) NOT NULL,
 price_flex CHAR(80) NOT NULL,
 price double(20,2) NOT NULL,
 description CHAR(255),
-location CHAR(60) NOT NULL
+location text NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 ALTER TABLE Product
@@ -137,3 +137,8 @@ WHERE Picture.id = Product_picture_relation.picture_id
 */
 
 SELECT id, name, owner_id, price_flex, price, description, location FROM Product WHERE location = ?;
+
+SELECT Message.message, User_message_relation.user_id, User_message_relation.sent_user_id
+FROM Message 
+INNER JOIN User_message_relation ON User_message_relation.user_id = 20 OR User_message_relation.sent_user_id = 20 
+WHERE Message.id = User_message_relation.message_id
