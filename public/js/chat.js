@@ -1,5 +1,5 @@
 let conversationNames = [];
-let conversationTexts = [];
+let conversationID;
 //gets all different conversations
 
 for (let i = messages.length - 1; i >= 0; i--) {
@@ -56,6 +56,7 @@ for (let i = messages.length - 1; i >= 0; i--) {
 }
 
 function populateChat(otherID) {
+  conversationID = otherID
   const usernameText = document.querySelector("#username-text");
   const usernameInfo = document.querySelector("#user-info");
   const sendButton = document.querySelector("#send-button");
@@ -72,7 +73,10 @@ function populateChat(otherID) {
     chatBox.appendChild(chatText);
 
     if (messages[i].sent_user_id == otherID && messages[i].user_id == myID) {
-      usernameText.innerHTML = messages[i].receiver;
+      let usr = conversationNames.find(
+        (conversationNames) => conversationNames.user_id == otherID
+      );
+      usernameText.innerHTML = usr.username;
       chatBox.className = "message-container user-message";
       sendButton.dataset.userId = messages[i].sent_user_id;
     } else if (
@@ -137,12 +141,16 @@ function sendMessage(e) {
 
   socket.emit("messageToServer", {
     message: message.value,
-    userID: myID,
-    userToSend: e.target.parentElement.dataset.userId,
+    senderID: myID,
+    userToSendID: e.target.parentElement.dataset.userId,
   });
   message.value = "";
 }
 
-socket.on("whisperToUser", function (data) {
-	console.log(`user ${data.senderName} sended you message ${data.message}`)
+socket.on("messageToUser", function (data) {
+  messages.push({message: data.message ,user_id: data.senderID,sent_user_id: data.userToSendID})
+  if (data.senderID == conversationID|| data.userToSendID == conversationID) {
+    populateChat(conversationID)
+  }
+	console.log(`user ${data.senderName} sended a message ${data.message}`)
 });

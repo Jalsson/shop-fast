@@ -1,58 +1,61 @@
-require('dotenv').config();
-const express = require('express');
-const expressLayouts = require('express-ejs-layouts')
-const flash = require('connect-flash')
-const session = require('express-session')
-const passport  = require('passport')
-const socket = require('socket.io')
-const http = require('http');
+require("dotenv").config();
+const express = require("express");
+const messageModel = require("./models/messageModel");
+const expressLayouts = require("express-ejs-layouts");
+const flash = require("connect-flash");
+const session = require("express-session");
+const passport = require("passport");
+const socket = require("socket.io");
+const http = require("http");
 const app = express();
 
 //Passport config
-require('./controllers/passport')(passport)
-app.use(express.static('uploads'))
+require("./controllers/passport")(passport);
+app.use(express.static("uploads"));
 // EJS
-app.use(expressLayouts)
-app.set('view engine', 'ejs')
+app.use(expressLayouts);
+app.set("view engine", "ejs");
 
 //Bodyparser
 app.use(express.json()); // for parsing application/json
-app.use(express.urlencoded({extended: false}))
+app.use(express.urlencoded({ extended: false }));
 
-// Express session 
-app.use(session({
-    secret: 'cat secret thing',
+// Express session
+app.use(
+  session({
+    secret: "cat secret thing",
     resave: true,
-    saveUninitialized: true
-  }))
+    saveUninitialized: true,
+  })
+);
 
-  // Passport middleware
-  app.use(passport.initialize())
-  app.use(passport.session())
+// Passport middleware
+app.use(passport.initialize());
+app.use(passport.session());
 
 // Connect flash
-app.use(flash()) 
+app.use(flash());
 
 // Global warning variables
 app.use((req, res, next) => {
-  res.locals.success_msg = req.flash("success_msg")
-  res.locals.error_msg = req.flash("error_msg")
-  res.locals.error = req.flash("error")
-  next()
+  res.locals.success_msg = req.flash("success_msg");
+  res.locals.error_msg = req.flash("error_msg");
+  res.locals.error = req.flash("error");
+  next();
 });
 
-app.use(express.static(__dirname + '/public'))
-app.use(express.static('views'));
+app.use(express.static(__dirname + "/public"));
+app.use(express.static("views"));
 
 // Routes
-app.use('/', require('./routes/index'))
-app.use('/users', require('./routes/users'))
-app.use('/data', require('./routes/dataRoute'))
-app.use('/chat', require('./routes/messages'))
+app.use("/", require("./routes/index"));
+app.use("/users", require("./routes/users"));
+app.use("/data", require("./routes/dataRoute"));
+app.use("/chat", require("./routes/messages"));
 
-const PORT = process.env.PORT || 5000
+const PORT = process.env.PORT || 5000;
 
-let server = app.listen(PORT, console.log(`Server started on port ${PORT}`))
+let server = app.listen(PORT, console.log(`Server started on port ${PORT}`));
 
 // setup socket.io
 let io = socket(server);
@@ -62,7 +65,8 @@ io.sockets.on("connection", (socket) => {
   /*<<<-----Function wich calculates all current connected users  (copy paste stuff)------>>>*/
   /*<<<--------------------------------------------------------------------------------->>>*/
   Object.size = function (obj) {
-    var size = 0, key;
+    var size = 0,
+      key;
     for (key in obj) {
       if (obj.hasOwnProperty(key)) size++;
     }
@@ -73,27 +77,35 @@ io.sockets.on("connection", (socket) => {
   /*<<<--------------------------------------------------------------------------------->>>*/
 
   socket.on("newUserToServer", function (data) {
-
-    let usr = connectedUsers.find(connectedUsers => connectedUsers.socketID == socket.id);
+    let usr = connectedUsers.find(
+      (connectedUsers) => connectedUsers.socketID == socket.id
+    );
     if (usr) {
       for (var i = 0; i < connectedUsers.length; i++) {
         if (connectedUsers[i] === usr) {
           connectedUsers.splice(i, 1);
         }
       }
-    }
-    else {
+    } else {
       connectedUsers.push({
         userName: data.userName,
         socketID: socket.id,
-        userID: data.userID
+        userID: data.userID,
       });
     }
-    socket.join(data.room)
+    socket.join(data.room);
     for (var i = 0; i < connectedUsers.length; i++) {
-      console.log(" user " + connectedUsers[i].userName + " connected with this " + connectedUsers[i].userID + " id " + i + " on socket connection  " + connectedUsers[i].socketID);
+      console.log(
+        " user " +
+          connectedUsers[i].userName +
+          " connected with this " +
+          connectedUsers[i].userID +
+          " id " +
+          i +
+          " on socket connection  " +
+          connectedUsers[i].socketID
+      );
     }
-
 
     /*io.to(data.room).emit('UserListToClient',{
       connectedUsers: usersInCurrentRoom
@@ -104,50 +116,79 @@ io.sockets.on("connection", (socket) => {
   /*<-------------------------------------------------------------------------------->>>*/
 
   socket.on("disconnect", (reason) => {
-    var usr = connectedUsers.find(connectedUsers => connectedUsers.socketID == socket.id);
+    var usr = connectedUsers.find(
+      (connectedUsers) => connectedUsers.socketID == socket.id
+    );
     if (usr) {
       for (var i = 0; i < connectedUsers.length; i++) {
         if (connectedUsers[i] === usr) {
-          console.log("removed id " + connectedUsers[i].userID)
+          console.log("removed id " + connectedUsers[i].userID);
           connectedUsers.splice(i, 1);
         }
       }
 
-      var usersInCurrentRoom = []
+      var usersInCurrentRoom = [];
       for (let i = 0; i < connectedUsers.length; i++) {
         if (connectedUsers[i].room == usr.room) {
-          usersInCurrentRoom.push(connectedUsers[i])
+          usersInCurrentRoom.push(connectedUsers[i]);
         }
       }
-  
-      io.to(usr.room).emit('UserListToClient',{
-        connectedUsers: usersInCurrentRoom
-      });
-      
-      io.to(usr.room).emit('eventMessage',{
-        eventMessage: "disconnect"
+
+      io.to(usr.room).emit("UserListToClient", {
+        connectedUsers: usersInCurrentRoom,
       });
 
+      io.to(usr.room).emit("eventMessage", {
+        eventMessage: "disconnect",
+      });
     }
-    console.log("disconnect emit: connected users size " + Object.size(connectedUsers) + " after " + socket.id + " disconnect for " + reason + " reason");
+    console.log(
+      "disconnect emit: connected users size " +
+        Object.size(connectedUsers) +
+        " after " +
+        socket.id +
+        " disconnect for " +
+        reason +
+        " reason"
+    );
   });
 
   /*<<<---Handles private messaging---->>>*/
 
   socket.on("messageToServer", (data) => {
-    console.log(data.userID + " sended message " + data.message + " To user " + data.userToSend)
-    let usr = connectedUsers.find(connectedUsers => connectedUsers.userID == data.userToSend);
-    let senderUsr = connectedUsers.find(connectedUsers => connectedUsers.userID == data.userID);
-    let newData = {
-      message: data.message,
-      userToSendID: data.userToSend,
-      userToSendName: usr.userName,
-      senderID: data.userID,
-      senderName: senderUsr.userName
-    }
+    console.log(
+      data.senderID +
+        " sended message " +
+        data.message +
+        " To user " +
+        data.userToSendID
+    );
+    let usr = connectedUsers.find(
+      (connectedUsers) => connectedUsers.userID == data.userToSendID
+    );
+    let senderUsr = connectedUsers.find(
+      (connectedUsers) => connectedUsers.userID == data.senderID
+    );
+    let newData = {};
     if (usr) {
+      newData = {
+        message: data.message,
+        userToSendID: data.userToSendID,
+        userToSendName: usr.userName,
+        senderID: data.senderID,
+        senderName: senderUsr.userName,
+      };
+
       io.to(usr.socketID).emit("messageToUser", newData);
+    } else {
+      newData = {
+        message: data.message,
+        userToSendID: data.userToSendID,
+        senderID: data.senderID,
+        senderName: senderUsr.userName,
+      };
     }
     io.to(socket.id).emit("messageToUser", newData);
-  })
+    messageModel.insertMessage(newData)
+  });
 });

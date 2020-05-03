@@ -99,7 +99,7 @@ INSERT INTO Picture (url) VALUES
 
 /* Dummy chat data */
 
-/*jalmari 21 nilsson 20*/
+/*jalmari 21 nilsson 20 23*/
 
 INSERT INTO Message VALUES (1, "jou jou taa on viesti sulle");
 INSERT INTO Message VALUES (2, "toinen viesti");
@@ -108,7 +108,7 @@ INSERT INTO Message VALUES (4, "neljas viesti");
 INSERT INTO Message VALUES (5, "viides viesti");
 INSERT INTO Message VALUES (6, "kuudes viesti");
 
-INSERT INTO User_message_relation VALUES (20,21,1);
+INSERT INTO User_message_relation VALUES (20,23,1);
 INSERT INTO User_message_relation VALUES (21,20,2);
 INSERT INTO User_message_relation VALUES (20,21,3);
 INSERT INTO User_message_relation VALUES (21,20,4);
@@ -136,9 +136,11 @@ FROM Picture
 WHERE Picture.id = Product_picture_relation.picture_id
 */
 
+DELETE FROM User_message_relation;
+DELETE FROM Message;
+
+INSERT INTO Message VALUES (1, "jou jou taa on viesti sulle");
+
 SELECT id, name, owner_id, price_flex, price, description, location FROM Product WHERE location = ?;
 
-SELECT Message.message, User_message_relation.user_id, User_message_relation.sent_user_id
-FROM Message 
-INNER JOIN User_message_relation ON User_message_relation.user_id = 20 OR User_message_relation.sent_user_id = 20 
-WHERE Message.id = User_message_relation.message_id
+SELECT Message.message, User_message_relation.user_id, User_message_relation.sent_user_id,(SELECT username FROM Users WHERE id = User_message_relation.user_id) AS sender,(SELECT username FROM Users WHERE id = User_message_relation.sent_user_id) AS receiver FROM Message INNER JOIN User_message_relation ON User_message_relation.user_id = ? OR User_message_relation.sent_user_id = ? WHERE Message.id = User_message_relation.message_id

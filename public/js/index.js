@@ -9,11 +9,42 @@ const modalImage = document.querySelector('#image-modal img');
 const header = document.querySelector("#Header");
 const chatStart = document.querySelector("#chatStart");
 const sitecontainer = document.querySelector("#siteContainer")
+
+const modalList = document.querySelector("#modalList")
 let divNumber = 1
 let called = 0
-const createProductDivs = (products) => {
+
+let productlat1 = 0.0
+let productlon1 = 0.0
+
+let lat1 = 0.0
+let lon1 = 0.0
+let unit = "K"
+
+const createProductDivs = (products, filter) => {
   
   products.forEach((element) => {
+
+    if(filter == true){
+      elementLoc = element.location;
+      locationArr = elementLoc.split(',')
+      productlat1 = parseFloat(locationArr[0])
+      productlon1 = parseFloat(locationArr[1])
+      
+      console.log("product location: "+productlat1 +", "+ productlon1)
+
+      getUserLocation();
+      setTimeout(function(){ console.log("waiting")}, 500);
+      console.log("My location: "+lat1 +", "+ lon1)
+      console.log(distance(lat1, lon1, productlat1, productlon1, unit))
+      
+
+      //let userlat2 = uCoordinates[0]
+      //let userlon2 = uCoordinates[1]
+
+      //console.log(userlat2, userlon2)
+    }
+    
     console.log(element.urls[0].url);
     //saleBoard div
     const div = document.createElement("div");
@@ -55,7 +86,7 @@ const createProductDivs = (products) => {
     });
     divNumber++
     
-    //button2.addEventListener("click", nextImage(div.id)); 
+    //
 
     for (let i = 0; i < element.urls.length; i++) {
       //element.urls[i].url
@@ -76,6 +107,26 @@ const createProductDivs = (products) => {
         header.style.display = "none"
         chatStart.style.display = "block"
         
+        
+        const list0 = document.querySelector("#li0")
+        list0.textContent = "Product: "+element.name
+        
+        
+        const list1 = document.querySelector("#li1")
+        list1.textContent = "Product: "+element.price
+
+        const list2 = document.querySelector("#li2")
+        list2.textContent = "Product: "+element.price_flex
+
+        const list3 = document.querySelector("#li3")
+        list3.textContent = "Product: "+element.description
+
+        const list4 = document.querySelector("#li4")
+        list4.textContent = "Product: "+element.location
+        
+        modalList.appendChild(list0, list1, list2, list3, list4)
+        
+        
       });
 
       div.appendChild(image);
@@ -95,17 +146,72 @@ const createProductDivs = (products) => {
  
 };
 
-const getProducts = async () => {
+//getproducts fetches data once called then creates divs that are needed with createProductDivs function
+const getProducts = async (filter) => {
   try {
     const response = await fetch(mainUrl + "/data");
     const products = await response.json();
-    createProductDivs(products);
+    createProductDivs(products, filter);
   } catch (e) {
     console.log("error " + e.message);
   }
 };
-getProducts();
+let filter = false;
+getProducts(filter);
 
+//////////////////////////////
+//user location and product filter
+//////////////////////////////
+const filterButton = document.querySelector("#filter")
+
+filterButton.addEventListener('click', function(){
+  mainHeader.innerHTML = "";
+  divNumber = 1;
+  filter = true;
+  getProducts(filter)
+});
+
+//function getUserLocation(){
+const getUserLocation = async () =>{
+  if(navigator.geolocation){
+    navigator.geolocation.getCurrentPosition(displayPosition)
+  }else{
+    alert("location is not supported in this browser")
+  }
+}
+
+function displayPosition(position) {
+  lat1 = position.coords.latitude
+  lon1 = position.coords.longitude
+
+  console.log("my position "+lat1 +", "+lon1)
+  //console.log(lat1 +", " + lon1);
+  //let unit = "K"
+  //distance(lat1, lon1, lat2, lon2, unit)
+}
+function distance(lat1, lon1, lat2, lon2, unit){
+  if ((lat1 == lat2) && (lon1 == lon2)) {
+		console.log("same coordinates")
+	}else{
+    var radlat1 = Math.PI * lat1/180;
+		var radlat2 = Math.PI * lat2/180;
+		var theta = lon1-lon2;
+		var radtheta = Math.PI * theta/180;
+		var dist = Math.sin(radlat1) * Math.sin(radlat2) + Math.cos(radlat1) * Math.cos(radlat2) * Math.cos(radtheta);
+		if (dist > 1) {
+			dist = 1;
+		}
+		dist = Math.acos(dist);
+		dist = dist * 180/Math.PI;
+		dist = dist * 60 * 1.1515;
+		if (unit=="K") { dist = dist * 1.609344 }
+		if (unit=="N") { dist = dist * 0.8684 }
+		return dist;
+  }
+}
+
+//////////////////////////////
+//End close inspect
 //////////////////////////////
 const close = document.querySelector(".close")
 close.addEventListener('click', (evt)=>{
@@ -114,20 +220,27 @@ close.addEventListener('click', (evt)=>{
   header.style.display = "block"
   sitecontainer.style.display = "flex"
   chatStart.style.display = "none"
+
+  
+  
 });
 
 var slideIndex = 0;
+
+//setups image slides
 function slideSetup(id){
   console.log("called slideSetup")
   slideIndex = 1;
 showDivs(slideIndex, id);
 }
 
+//function which is called when slidebutton pressed
 function plusDivs(n, id) {
   console.log("called plusDivs")
   showDivs(slideIndex += n, id);
 }
 
+//slide image function
 function showDivs(n, id) {
   var i;
   console.log(id)
