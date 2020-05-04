@@ -75,7 +75,7 @@ const data_post = async (req, res) => {
 
     const pic1 = req.files[0];
     const path = req.files[0].path;
-    console.log(path)
+    
     const pictures = [];
     pictures.push(pic1.filename);
 
@@ -84,7 +84,7 @@ const data_post = async (req, res) => {
     }catch(e){
       console.log("no coordinates in image")
     }
-    console.log('coords', coords);
+    
     
     let location = "";
     if(!coords == ""){
@@ -113,8 +113,7 @@ const data_post = async (req, res) => {
       req.body.description,
       location,
     ];
-    console.log(data)
-    console.log("pictures:" + pictures);
+    
     const mergedData = await dataModel.insertData(data, pictures);
     
   } catch (e) {

@@ -1,7 +1,11 @@
 body{
     margin: 0;
     height: auto;
-    min-height: 100%
+    min-height: 100%;
+    font-family: 'Karla', sans-serif;
+    background-image: url('/images/shopfast-background.svg');
+    background-size: 9000px;
+    background-position: center;
 }
 #container{
   min-height: 100vh;
@@ -12,7 +16,6 @@ body{
   flex-direction: row;
   align-content: flex-start;
   min-height: 100vh;
-  
 }
 #main{
     display: flex;
@@ -33,10 +36,10 @@ body{
     margin-left: 20%;
     min-width: 55%;
     margin-right: 25%;
-    background-color: blue;
+    background-color: #183473;
 }
 #sidebar{
-  background-color: blue;
+  background-color: #183473;
   border-style: solid;
   border-width: 2px;
   border-color: black;
@@ -56,11 +59,14 @@ body{
     margin-top: 4%;
     position: relative;
 }
-img{
+.slideImage{
     width: 100%;
 }
+#logo{
+  width: 20%;
+}
 
-input[type=text], select {
+input[type=text], select{
     width: 90%;
     padding: 12px 20px;
     margin: 8px ;
@@ -70,19 +76,38 @@ input[type=text], select {
     box-sizing: border-box;
   }
   
-  input[type=submit] {
-    width: 5%;
-    background-color: #4CAF50;
-    color: white;
-    padding: 14px 20px;
-    margin: 8px 0;
+  #saveButton{
+    width: 90%;
+    margin-left: 5%;
+    margin-right: 5%;
+    background-color: #42bd50;
     border: none;
-    border-radius: 4px;
+    color: white;
+    padding: 14px 28px;
+    font-size: 16px;
     cursor: pointer;
+    background-color: #42bd50;
+    margin-top: 2vh;
+    margin-bottom: 1vh;
   }
   
   input[type=submit]:hover {
     background-color: #45a049;
+  }
+
+  #fileUpload{
+    width: 90%;
+    margin-left: 5%;
+    margin-right: 5%;
+    background-color: #42bd50;
+    border: none;
+    color: white;
+    
+    font-size: 16px;
+    cursor: pointer;
+    background-color: #42bd50;
+    margin-top: 2vh;
+    margin-bottom: 1vh;
   }
   h2{
     margin: 0;
@@ -161,6 +186,77 @@ input[type=text], select {
   width: 60%;
   height: 50vh;
 }
+
+#filterDiv{
+  display: flex;
+    flex-direction: row;
+    justify-content: center;
+    border-style: solid;
+}
+
+.slider {
+  border-style: solid;
+  -webkit-appearance: none;
+  width: 80%;
+  height: 25px;
+  background: gray;
+  outline: none;
+  opacity: 0.7;
+  -webkit-transition: .2s;
+  transition: opacity .8s;
+  margin-top: 1vh;
+  margin-bottom: 1vh;
+}
+
+.slider:hover {
+  opacity: 1;
+}
+
+.slider::-moz-range-thumb {
+  width: 25px;
+  height: 25px;
+  background: #4CAF50;
+  cursor: pointer;
+}
+
+#filter{
+  margin-top: 1vh;
+  margin-bottom: 1vh;
+}
+#distance{
+  margin-left: 1%;
+  margin-top: 1vh;
+  margin-bottom: 1vh;
+  border-style: solid;
+}
+
+#locationInsert{
+  border: none;
+  color: white;
+  padding: 14px 28px;
+  font-size: 16px;
+  cursor: pointer;
+  background-color: #42bd50;
+  margin-top: 2vh;
+  margin-bottom: 1vh;
+  width: 90%;
+  margin-left: 5%;
+  margin-right: 5%;
+}
+
+.navigation-container{
+  margin-left: 20%;
+  min-width: 55%;
+  margin-right: 25%;
+  height: 40px;
+  display: flex;
+  background: #183473;;
+}
+.navigation-icon{
+  height: 40px;
+  margin: 0px 10px;
+}
+
   @media only screen and (max-width: 1550px){
     #sidebar{
       margin-right: 4%;
@@ -183,8 +279,8 @@ input[type=text], select {
 
     #main{
       flex-direction: column;
-      max-width: 60%;
-      margin-left: 20%;
+      min-width: 100%;
+      margin: 0;
     }
     .saleBoard{
       width: 80%;
@@ -192,16 +288,13 @@ input[type=text], select {
       margin-right: 10%;
     }
     #sidebar{
-      margin-right: 20%;
-      margin-left: 20%;
-      width: 60%;
+      width: 100%;
       min-height: 10vh;
       border-left: none;
       border-right: none;
     }
     #Header{
-      margin-right: 20%;
-      margin-left: 20%;
-      width: 60%;
+      width: 100%;
+      margin: 0;
     }
   }

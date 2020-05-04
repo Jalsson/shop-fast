@@ -44,7 +44,7 @@ const insertData = async (data, pictures) => {
     //console.log('inserting data', data, picture);
     const [dataRows] = await promisePool.query('INSERT INTO Product (name, owner_id, price_flex, price, description, location) VALUES (?, ?, ?, ?, ?, ?)', data);
     const dataInsertId = dataRows.insertId;
-    console.log(dataInsertId);
+    
   
     let pictureInsert = []
     let pictureId = []

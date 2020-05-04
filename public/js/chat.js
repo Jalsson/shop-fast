@@ -1,62 +1,84 @@
 let conversationNames = [];
 let conversationID;
 //gets all different conversations
+getConversations()
+function getConversations() {
+  for (let i = messages.length - 1; i >= 0; i--) {
 
-for (let i = messages.length - 1; i >= 0; i--) {
-  if (messages[i].user_id == myID) continue;
+    let userIDfound = false;
+    let sentIDfound = false;
+    for (let z = 0; z < conversationNames.length; z++) {
+      if (
+        conversationNames[z].user_id === messages[i].user_id) {
+        userIDfound = true;
+      }
+      else if (
+        conversationNames[z].user_id === messages[i].sent_user_id) {
+        sentIDfound = true;
+      }
+    }
+    if (!sentIDfound) {
+      if (messages[i].sent_user_id != myID) {
+        conversationNames.push({
+          user_id: messages[i].sent_user_id,
+          username: messages[i].receiver,
+        });
+      }
 
-  let found = false;
-  for (let z = 0; z < conversationNames.length; z++) {
-    if (
-      conversationNames[z].user_id === messages[i].user_id &&
-      messages[i].user_id != myID
-    ) {
-      found = true;
+    }
+    if(!userIDfound){
+      if (messages[i].user_id != myID) {
+        conversationNames.push({
+          user_id: messages[i].user_id,
+          username: messages[i].sender,
+        });
+      }
     }
   }
-  if (!found) {
-    conversationNames.push({
-      user_id: messages[i].user_id,
-      username: messages[i].sender,
-    });
-    const display = document.querySelector("#users-display-window");
+  populateSideBar()
+}
+
+function populateSideBar(){
+  const display = document.querySelector("#users-display-window");
+  display.innerHTML = "";
+  conversationNames.forEach(element => {
+    
     let userBox = document.createElement("div");
     let userNameDiv = document.createElement("div");
     let userLastMessage = document.createElement("div");
-    display.innerHTML = "";
 
+  
     userBox.className = "user";
-    userBox.dataset.userId = messages[i].user_id;
-
+    userBox.dataset.userId = element.user_id;
+  
     userBox.onclick = (event) => {
       populateChat(event.target.parentElement.dataset.userId);
     };
-
+  
     userNameDiv.className = "user-text";
     userLastMessage.className = "user-text";
     userLastMessage.style = "font-size: 19px;";
-
-    userNameDiv.innerHTML = messages[i].sender;
-
+  
+    userNameDiv.innerHTML = element.username;
+  
     display.appendChild(userBox);
     userBox.appendChild(userNameDiv);
     for (let x = messages.length - 1; x >= 0; x--) {
       if (
-        (messages[i].user_id === messages[x].user_id &&
-          messages[i].sent_user_id === myID) ||
-        (messages[x].user_id === myID &&
-          messages[x].sent_user_id === messages[i].user_id)
+        (element.user_id === messages[x].user_id && messages[x].sent_user_id === myID) ||
+        (messages[x].user_id === myID && messages[x].sent_user_id === element.user_id)
       ) {
         userLastMessage.innerHTML = messages[x].message;
         break;
       }
     }
     userBox.appendChild(userLastMessage);
-  }
+  });
+
 }
 
 function populateChat(otherID) {
-  conversationID = otherID
+  conversationID = otherID;
   const usernameText = document.querySelector("#username-text");
   const usernameInfo = document.querySelector("#user-info");
   const sendButton = document.querySelector("#send-button");
@@ -64,48 +86,49 @@ function populateChat(otherID) {
   const Chat = document.querySelector("#chat-body");
   Chat.innerHTML = "";
 
+
+  let usr = conversationNames.find((conversationNames) => conversationNames.user_id == otherID);
+  usernameText.innerHTML = usr.username;
+
   for (let i = 0; i < messages.length; i++) {
-    let chatBox = document.createElement("div");
-    let chatText = document.createElement("div");
-    chatText.className = "message";
-
-    Chat.appendChild(chatBox);
-    chatBox.appendChild(chatText);
-
     if (messages[i].sent_user_id == otherID && messages[i].user_id == myID) {
-      let usr = conversationNames.find(
-        (conversationNames) => conversationNames.user_id == otherID
-      );
+      let chatBox = document.createElement("div");
+      let chatText = document.createElement("div");
+      chatText.className = "message ";
+  
+      Chat.appendChild(chatBox);
+      chatBox.appendChild(chatText);
+
       usernameText.innerHTML = usr.username;
       chatBox.className = "message-container user-message";
       sendButton.dataset.userId = messages[i].sent_user_id;
-    } else if (
-      messages[i].sent_user_id == myID &&
-      messages[i].user_id == otherID
-    ) {
+      chatText.innerHTML = messages[i].message;
+
+    } else if (messages[i].sent_user_id == myID && messages[i].user_id == otherID) {
+      let chatBox = document.createElement("div");
+      let chatText = document.createElement("div");
+      chatText.className = "message other-message";
+
+      Chat.appendChild(chatBox);
+      chatBox.appendChild(chatText);
+
       usernameText.innerHTML = messages[i].sender;
       chatBox.className = "message-container otheruser-message";
       sendButton.dataset.userId = messages[i].user_id;
+      chatText.innerHTML = messages[i].message;
     }
-    chatText.innerHTML = messages[i].message;
+    
   }
 }
 
 // Luo yhteys
 const socket = io.connect();
-console.log('check 1', socket.connected);
-socket.on('connect', function() {
-  console.log('check 2', socket.connected);
+
+socket.on("disconnect", function () {
+  console.log("disconnecting");
 });
 
-socket.on('disconnect', function(){
-	console.log("disconnecting")
-	});
-let path = window.location.pathname;
-path = path[0] == "/" ? path.substr(11) : path;
-
 socket.on("connect", () => {
-	console.log("connected")
   socket.emit("newUserToServer", {
     userName: myName,
     userID: myID,
@@ -115,8 +138,6 @@ socket.on("connect", () => {
 String.prototype.capitalize = function () {
   return this.charAt(0).toUpperCase() + this.slice(1);
 };
-
-//document.getElementById('room').innerHTML = "<h2 style='font-size: 27px;'>" + path.capitalize(); +"</h2>"
 
 // Query DOM
 let message = document.getElementById("message-field");
@@ -148,9 +169,13 @@ function sendMessage(e) {
 }
 
 socket.on("messageToUser", function (data) {
-  messages.push({message: data.message ,user_id: data.senderID,sent_user_id: data.userToSendID})
-  if (data.senderID == conversationID|| data.userToSendID == conversationID) {
-    populateChat(conversationID)
+  messages.push({
+    message: data.message,
+    user_id: data.senderID,
+    sent_user_id: data.userToSendID,
+  });
+  if (data.senderID == conversationID || data.userToSendID == conversationID) {
+    populateChat(conversationID);
   }
-	console.log(`user ${data.senderName} sended a message ${data.message}`)
+  console.log(`user ${data.senderName} sended a message ${data.message}`);
 });

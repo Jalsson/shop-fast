@@ -3,23 +3,32 @@ const mainUrl = "http://localhost:5000";
 const mainHeader = document.querySelector("#main");
 const addDataForm = document.querySelector("#add-data-form");
 
+const socket = io.connect();
+
 const imageModal = document.querySelector('#image-modal');
 const modalImage = document.querySelector('#image-modal img');
 
 const header = document.querySelector("#Header");
 const chatStart = document.querySelector("#chatStart");
-const sitecontainer = document.querySelector("#siteContainer")
+const sitecontainer = document.querySelector("#siteContainer");
 
-const modalList = document.querySelector("#modalList")
-let divNumber = 1
-let called = 0
+const modalList = document.querySelector("#modalList");
 
-let productlat1 = 0.0
-let productlon1 = 0.0
+const insertedLocation = document.querySelector("#location");
 
-let lat1 = 0.0
-let lon1 = 0.0
-let unit = "K"
+let divNumber = 1;
+let called = 0;
+
+let productlat1 = 0.0;
+let productlon1 = 0.0;
+let lat1 = 0.0;
+let lon1 = 0.0;
+
+let unit = "K";
+let userDistance = 0.0
+let filterDistance = 0.0
+
+
 
 const createProductDivs = (products, filter) => {
   
@@ -31,21 +40,14 @@ const createProductDivs = (products, filter) => {
       productlat1 = parseFloat(locationArr[0])
       productlon1 = parseFloat(locationArr[1])
       
-      console.log("product location: "+productlat1 +", "+ productlon1)
-
-      getUserLocation();
-      setTimeout(function(){ console.log("waiting")}, 500);
-      console.log("My location: "+lat1 +", "+ lon1)
-      console.log(distance(lat1, lon1, productlat1, productlon1, unit))
-      
-
-      //let userlat2 = uCoordinates[0]
-      //let userlon2 = uCoordinates[1]
-
-      //console.log(userlat2, userlon2)
+      userDistance = distance(lat1, lon1, productlat1, productlon1, unit)
+     
+      if(userDistance > filterDistance){
+        
+        return
+      }
     }
-    
-    console.log(element.urls[0].url);
+   
     //saleBoard div
     const div = document.createElement("div");
     div.className = "saleBoard";
@@ -58,6 +60,9 @@ const createProductDivs = (products, filter) => {
     //price
     const price = document.createElement("h2");
     const amount = document.createTextNode("Price: " + element.price + "€");
+
+    //const productDistance = document.createElement("h2")
+    //const dist = document.createTextNode(userDistance+"km")
     
     const button1 = document.createElement('button');
     button1.id = "minusSlide";
@@ -162,9 +167,18 @@ getProducts(filter);
 //////////////////////////////
 //user location and product filter
 //////////////////////////////
+const distSlider = document.querySelector(".slider");
+let filterValue = document.getElementById("distance")
+distSlider.addEventListener("change", getSliderValue)
+
+function getSliderValue(){
+  filterDistance = distSlider.value;
+  filterValue.textContent = filterDistance+"km"
+}
+
 const filterButton = document.querySelector("#filter")
 
-filterButton.addEventListener('click', function(){
+filterButton.addEventListener('click', async function(){
   mainHeader.innerHTML = "";
   divNumber = 1;
   filter = true;
@@ -174,7 +188,7 @@ filterButton.addEventListener('click', function(){
 //function getUserLocation(){
 const getUserLocation = async () =>{
   if(navigator.geolocation){
-    navigator.geolocation.getCurrentPosition(displayPosition)
+    await navigator.geolocation.getCurrentPosition(displayPosition)
   }else{
     alert("location is not supported in this browser")
   }
@@ -183,15 +197,13 @@ const getUserLocation = async () =>{
 function displayPosition(position) {
   lat1 = position.coords.latitude
   lon1 = position.coords.longitude
-
-  console.log("my position "+lat1 +", "+lon1)
-  //console.log(lat1 +", " + lon1);
+  console.log("My location is: "+lat1 +", " + lon1);
   //let unit = "K"
   //distance(lat1, lon1, lat2, lon2, unit)
 }
+getUserLocation();
 function distance(lat1, lon1, lat2, lon2, unit){
   if ((lat1 == lat2) && (lon1 == lon2)) {
-		console.log("same coordinates")
 	}else{
     var radlat1 = Math.PI * lat1/180;
 		var radlat2 = Math.PI * lat2/180;
@@ -209,6 +221,18 @@ function distance(lat1, lon1, lat2, lon2, unit){
 		return dist;
   }
 }
+
+//////////////////////////////
+//inserting user location inside form
+//////////////////////////////
+const locationButton = document.querySelector("#locationInsert")
+locationButton.addEventListener("click", insertLocation)
+
+function insertLocation(){
+    insertedLocation.value = lat1+", "+lon1
+}
+
+
 
 //////////////////////////////
 //End close inspect
@@ -229,22 +253,18 @@ var slideIndex = 0;
 
 //setups image slides
 function slideSetup(id){
-  console.log("called slideSetup")
   slideIndex = 1;
 showDivs(slideIndex, id);
 }
 
 //function which is called when slidebutton pressed
 function plusDivs(n, id) {
-  console.log("called plusDivs")
   showDivs(slideIndex += n, id);
 }
 
 //slide image function
 function showDivs(n, id) {
   var i;
-  console.log(id)
-  console.log("called showDivs")
   var x = document.querySelector("#"+id).querySelectorAll('img');
   if (n > x.length) {slideIndex = 1}
   if (n < 1) {slideIndex = x.length} ;
@@ -252,4 +272,19 @@ function showDivs(n, id) {
     x[i].style.display = "none";
   }
   x[slideIndex-1].style.display = "block";
+}
+
+socket.on("connect", () => {
+  socket.emit("newUserToServer", {
+    userName: myName,
+    userID: myID,
+  });
+});
+
+function sendMessageToUser(message, userIdToSend){
+  socket.emit("messageToServer", {
+    message: message,
+    senderID: myID,
+    userToSendID: userIDToSend
+  });
 }

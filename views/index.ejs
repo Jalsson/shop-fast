@@ -1,3 +1,4 @@
+
 <div class="hide modal" id="image-modal">
   <a href="#" class="close">Close</a>
   <div id="modalDiv">
@@ -15,28 +16,16 @@
   </ul>
 </div>
 
-
+<%- include ('./partials/navigation') %>
 
 
 <div id="Header">
-  <img src="/public/images/shopfast-logo-full.png" alt="logo">
-  <h1>SHOP FAST</h1>
-  <button class="light-border" id="filter">Location Filter</button>
-  <div id="formContainer">
-    <form
-      id="filterForm"
-      action="/data/pic"
-      method="get"
-      class="light-border"
-    >
-    <input
-    class="light-border"
-    type="text"
-    name="location"
-    placeholder="location"
-    required />
-    <button class="light-border" type="submit" id="filterButton">Filter</button>
-    </form>
+  <img src="/images/shopfast-logo-full.png" alt="logo" id="logo">
+ 
+  <div id="filterDiv">
+  <input type="range" min="5" max="100" value="50" class="slider" id="myRange">
+  <button class="light-border" id="filter">Filter by distance</button>
+  <h3 id="distance">50km</h3>
   </div>
 </div>
 <div id="siteContainer">
@@ -80,11 +69,12 @@
         required
       />
       <input
+        id="location"
         class="light-border"
         type="text"
         name="location"
         placeholder="Location"
-        required
+        readonly, required
       />
       <input
         class="light-border"
@@ -94,10 +84,20 @@
         accept="image/*"
         placeholder="Choose file"
         multiple=""
+        required
       />
       <button class="light-border" type="submit" id="saveButton">Save</button>
     </form>
+    <button class="light-border" id="locationInsert">Insert your location</button>
   </div>
 </div>
 </div>
+
+<script>
+const myID = <%- id %>
+const myName = "<%- name %>"
+const myEmail = "<%- email %>"
+</script>
+  
 <script type="text/javascript" src="/js/index.js"></script>
+
