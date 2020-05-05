@@ -12,12 +12,17 @@ const getCoordinates = (imgFile) => { // imgFile = full path to uploaded image
                     reject(error);
                 } else {
                     console.log(exifData); // Do something with your data!
+                    try{
                     const lat = gpsToDecimal(exifData.gps.GPSLatitude, exifData.gps.GPSLatitudeRef);
                     const lon = gpsToDecimal(exifData.gps.GPSLongitude, exifData.gps.GPSLongitudeRef);
+                    
                     let coordinates = lat;
                     coordinates += ", "+lon;
                     
                     resolve(coordinates);
+                }catch(e){
+                    reject("cant change latitude and longitude to decimal")
+                }
                 }
             });
 

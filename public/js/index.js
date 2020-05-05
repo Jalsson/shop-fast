@@ -7,6 +7,7 @@ const socket = io.connect();
 
 const imageModal = document.querySelector('#image-modal');
 const modalImage = document.querySelector('#image-modal img');
+const modalDiv = document.querySelector('#modalDiv');
 
 const header = document.querySelector("#Header");
 const chatStart = document.querySelector("#chatStart");
@@ -15,6 +16,10 @@ const sitecontainer = document.querySelector("#siteContainer");
 const modalList = document.querySelector("#modalList");
 
 const insertedLocation = document.querySelector("#location");
+const locationButton = document.querySelector("#locationInsert")
+
+const sendMessageBtn = document.querySelector("#sendMessage");
+const textArea = document.querySelector("#textArea");
 
 let divNumber = 1;
 let called = 0;
@@ -28,24 +33,21 @@ let unit = "K";
 let userDistance = 0.0
 let filterDistance = 0.0
 
+let productOwnerId = 0
 
 
 const createProductDivs = (products, filter) => {
   
   products.forEach((element) => {
 
-    if(filter == true){
       elementLoc = element.location;
       locationArr = elementLoc.split(',')
       productlat1 = parseFloat(locationArr[0])
       productlon1 = parseFloat(locationArr[1])
       
       userDistance = distance(lat1, lon1, productlat1, productlon1, unit)
-     
-      if(userDistance > filterDistance){
-        
-        return
-      }
+    if(filter == true && userDistance > filterDistance){
+      return
     }
    
     //saleBoard div
@@ -61,8 +63,12 @@ const createProductDivs = (products, filter) => {
     const price = document.createElement("h2");
     const amount = document.createTextNode("Price: " + element.price + "€");
 
-    //const productDistance = document.createElement("h2")
-    //const dist = document.createTextNode(userDistance+"km")
+    const productDistance = document.createElement("h2")
+    if(userDistance === undefined){
+      userDistance = 0;
+    }
+    const dist = document.createTextNode(Math.round(userDistance)+"km")
+    productDistance.appendChild(dist);
     
     const button1 = document.createElement('button');
     button1.id = "minusSlide";
@@ -111,35 +117,35 @@ const createProductDivs = (products, filter) => {
         sitecontainer.style.display = "none"
         header.style.display = "none"
         chatStart.style.display = "block"
+        productOwnerId = element.owner_id
+        document.querySelector("#top-navigation").style.display = "none"
         
-        
-        const list0 = document.querySelector("#li0")
-        list0.textContent = "Product: "+element.name
-        
+        console.log("id of owner: "+productOwnerId)
+
+        const pName = document.querySelector("#productName")
+        pName.textContent = element.name
         
         const list1 = document.querySelector("#li1")
-        list1.textContent = "Product: "+element.price
+        list1.textContent = "Product price: "+element.price+"€"
 
         const list2 = document.querySelector("#li2")
-        list2.textContent = "Product: "+element.price_flex
+        list2.textContent = "Price is "+element.price_flex
 
         const list3 = document.querySelector("#li3")
-        list3.textContent = "Product: "+element.description
-
-        const list4 = document.querySelector("#li4")
-        list4.textContent = "Product: "+element.location
-        
-        modalList.appendChild(list0, list1, list2, list3, list4)
-        
+        list3.textContent = element.description
         
       });
-
+      
       div.appendChild(image);
+     
     }
     name.appendChild(desc);
     price.appendChild(amount);
     div.appendChild(name);
     div.appendChild(price);
+    if(filter == true){
+    div.appendChild(productDistance);
+    }
     button1.appendChild(filling);
     div.appendChild(button1)
     button2.appendChild(filling2)
@@ -209,7 +215,8 @@ function distance(lat1, lon1, lat2, lon2, unit){
 		var radlat2 = Math.PI * lat2/180;
 		var theta = lon1-lon2;
 		var radtheta = Math.PI * theta/180;
-		var dist = Math.sin(radlat1) * Math.sin(radlat2) + Math.cos(radlat1) * Math.cos(radlat2) * Math.cos(radtheta);
+    var dist = Math.sin(radlat1) * Math.sin(radlat2) + Math.cos(radlat1) * Math.cos(radlat2) * Math.cos(radtheta);
+    console.log("distance: "+dist)
 		if (dist > 1) {
 			dist = 1;
 		}
@@ -225,29 +232,30 @@ function distance(lat1, lon1, lat2, lon2, unit){
 //////////////////////////////
 //inserting user location inside form
 //////////////////////////////
-const locationButton = document.querySelector("#locationInsert")
 locationButton.addEventListener("click", insertLocation)
 
 function insertLocation(){
     insertedLocation.value = lat1+", "+lon1
 }
-
+const saveButton = document.querySelector("#saveButton")
+saveButton.addEventListener("click", insertLocation)
 
 
 //////////////////////////////
-//End close inspect
+//End image inspection
 //////////////////////////////
 const close = document.querySelector(".close")
-close.addEventListener('click', (evt)=>{
-  evt.preventDefault();
+close.addEventListener('click', closeInspect);
+  //evt.preventDefault();
+
+
+function closeInspect(){
   imageModal.classList.add('hide');
   header.style.display = "block"
   sitecontainer.style.display = "flex"
   chatStart.style.display = "none"
-
-  
-  
-});
+  document.querySelector("#top-navigation").style.display = "flex"
+}
 
 var slideIndex = 0;
 
@@ -281,10 +289,22 @@ socket.on("connect", () => {
   });
 });
 
-function sendMessageToUser(message, userIdToSend){
+/////////////////////////////
+//sending msg to seller
+/////////////////////////////
+
+sendMessageBtn.addEventListener("click", function() {
+  let message = textArea.value
+  console.log(message)
+  sendMessageToUser(message, productOwnerId)
+  closeInspect();
+});
+function sendMessageToUser(message, idToSend){
+
   socket.emit("messageToServer", {
     message: message,
     senderID: myID,
-    userToSendID: userIDToSend
+    userToSendID: idToSend
   });
+  
 }

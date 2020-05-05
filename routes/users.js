@@ -31,6 +31,9 @@ router.post('/register',(req,res) => {
     if(password.lenght < 6){
         errors.push({msg: 'Passwords should be at least 6 characters'})
     }
+    if(!removeTags(name)){
+        errors.push({msg: 'name is not valid'})
+    }
 
     if(errors.length > 0){
         res.render("register",{
@@ -78,6 +81,15 @@ router.post('/register',(req,res) => {
     }
 })
 
+
+function removeTags(str) {
+    str = str.trim()
+    if ((str===null) || (str===''))
+    return false;
+    else
+    str = str.toString();
+    return str.replace( /(<([^>]+)>)/ig, '');
+  }
 
 // Login handle
 router.post('/login',function(req,res,next){

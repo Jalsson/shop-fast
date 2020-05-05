@@ -24,18 +24,17 @@ body{
     align-content: flex-start;
     flex-wrap: wrap;
     background-color: gray;
-    min-width: 55%;
-    max-width: 55%;
-    margin-left: 20%;
-    margin-right: 0%;
+    width: 55%;
+    margin-left: 15%;
+    margin-right: 0;
     min-height: 100vh;
     
 }
 #Header{
     
-    margin-left: 20%;
+    margin-left: 15%;
     min-width: 55%;
-    margin-right: 25%;
+    margin-right: 30%;
     background-color: #183473;
 }
 #sidebar{
@@ -58,9 +57,12 @@ body{
     width: 30%;
     margin-top: 4%;
     position: relative;
+    font-size: 1vh;
+    border-radius: 1vh;
 }
 .slideImage{
     width: 100%;
+    
 }
 #logo{
   width: 20%;
@@ -86,7 +88,6 @@ input[type=text], select{
     padding: 14px 28px;
     font-size: 16px;
     cursor: pointer;
-    background-color: #42bd50;
     margin-top: 2vh;
     margin-bottom: 1vh;
   }
@@ -99,10 +100,8 @@ input[type=text], select{
     width: 90%;
     margin-left: 5%;
     margin-right: 5%;
-    background-color: #42bd50;
     border: none;
     color: white;
-    
     font-size: 16px;
     cursor: pointer;
     background-color: #42bd50;
@@ -244,17 +243,57 @@ input[type=text], select{
   margin-right: 5%;
 }
 
+#productName{
+  text-align: center;
+  font-size: 2.5vh;
+}
+#modalList{
+  margin-left: 30%;
+  margin-right: 30%;
+  width: 40%;
+  font-size: 2vh;
+}
+#textArea{
+  width: 80%;
+  margin-top: 1vh;
+  margin-right: 10%;
+  margin-left: 10%;
+}
+
+#sendMessage{
+    width: 80%;
+    margin-left: 10%;
+    margin-right: 10%;
+    border: none;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    background-color: #42bd50;
+    margin-top: 2vh;
+    margin-bottom: 1vh;
+    padding: 14px 28px;
+}
+
 .navigation-container{
-  margin-left: 20%;
+  margin-left: 15%;
   min-width: 55%;
-  margin-right: 25%;
+  margin-right: 30%;
   height: 40px;
   display: flex;
-  background: #183473;;
+  background: #183473;
+  border-bottom-style: solid;
+  border-color: #42bd50;
 }
 .navigation-icon{
   height: 40px;
   margin: 0px 10px;
+}
+
+.notification{
+  max-width: 300px;
+  margin: 10px auto;
+  padding: 5px;
+  border-radius: 10px;
 }
 
   @media only screen and (max-width: 1550px){
@@ -270,6 +309,7 @@ input[type=text], select{
       margin-left: 15%;
       width: 55%;
     }
+
   }
 
   @media only screen and (max-width: 900px){
@@ -294,6 +334,11 @@ input[type=text], select{
       border-right: none;
     }
     #Header{
+      width: 100%;
+      margin: 0;
+    }
+
+    .navigation-container{
       width: 100%;
       margin: 0;
     }

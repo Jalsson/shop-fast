@@ -13,10 +13,7 @@ const getImage = async (id) => {
 //
 const getAllProducts = async (id) => {
   try{
-    //const[rows] = await promisePool.query('SELECT Product.Name, Product.price_flex, Product.price, Product.description, Product.location, Picture.url FROM Product, Picture WHERE Product.id = Picture.id;');
-    //return rows
-    //const [rows] = await promisePool.query('SELECT Product.Name, Product.price_flex, Product.price, Product.description, Product.location, Picture.url FROM Product, Picture, Product_picture_relation WHERE Product.id = Product_picture_relation.product_id AND Product_picture_relation.picture_id = Picture.id;');
-    //return rows
+    
     const [rows] = await promisePool.execute('SELECT id, name, owner_id, price_flex, price, description, location FROM Product');
     return rows
     //
@@ -33,11 +30,7 @@ const getAllImages = async (id) => {
   }
 } 
 
-/*SELECT url
-FROM Picture
-  INNER JOIN Product_picture_relation ON product_id = ?
-WHERE Picture.id = Product_picture_relation.picture_id
-*/
+
 
 const insertData = async (data, pictures) => {
   try {

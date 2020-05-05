@@ -52,12 +52,12 @@ function populateSideBar(){
     userBox.dataset.userId = element.user_id;
   
     userBox.onclick = (event) => {
-      populateChat(event.target.parentElement.dataset.userId);
+      populateChat(event.target.dataset.userId);
     };
   
     userNameDiv.className = "user-text";
     userLastMessage.className = "user-text";
-    userLastMessage.style = "font-size: 19px;";
+    userLastMessage.style = "font-size: 10px;margin-top: 7%;";
   
     userNameDiv.innerHTML = element.username;
   

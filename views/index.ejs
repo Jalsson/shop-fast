@@ -2,22 +2,24 @@
 <div class="hide modal" id="image-modal">
   <a href="#" class="close">Close</a>
   <div id="modalDiv">
-    <img src="" alt="">
+    <img id="img1" src="" alt="">
+   
   </div>
 </div>
 <div id="chatStart">
-  <h1 id="chatHeader">Type your message into textfield if you are interested</h1>
+  <h2 id="productName"></h2>
   <ul id="modalList">
-    <li id="li0"></li>
     <li id="li1"></li>
     <li id="li2"></li>
     <li id="li3"></li>
-    <li id="li4"></li>
   </ul>
+  <h1 id="chatHeader">Type your message into textfield if you are interested</h1>
+  
+  <textarea id="textArea" rows="4" cols="130"></textarea>
+  <button id="sendMessage">Send Message</button>
 </div>
 
 <%- include ('./partials/navigation') %>
-
 
 <div id="Header">
   <img src="/images/shopfast-logo-full.png" alt="logo" id="logo">
@@ -33,6 +35,7 @@
 
   <div id="sidebar">
   <div id="formContainer">
+    <%- include ('./partials/messages') %>
     <h2>Add your product for sale</h2>
     <form
       id="fileCatcher"
@@ -47,34 +50,40 @@
         type="text"
         name="name"
         placeholder="Name"
+        pattern=".{1,20}"
         required
       />
-      <select id="price_flex" name="price_flex">
-        <option value="Neuvoteltavissa">Neuvoteltavissa</option>
-        <option value="Ei Neuvoteltavissa">Ei Neuvoteltavissa</option>
-      </select>
-     
+      
       <input
         class="light-border"
         type="text"
         name="price"
         placeholder="Price"
+        pattern="^\d*(\.\d{0,2})?$"
         required
       />
+      <select id="price_flex" name="price_flex">
+        <option value="Neuvoteltavissa">negotiable</option>
+        <option value="Ei Neuvoteltavissa">not negotiable</option>
+      </select>
       <input
         class="light-border"
         type="text"
         name="description"
         placeholder="Description"
+        pattern=".{1,255}"
         required
       />
       <input
+        
         id="location"
         class="light-border"
         type="text"
         name="location"
         placeholder="Location"
-        readonly, required
+        required
+        readonly
+        
       />
       <input
         class="light-border"

@@ -1,4 +1,4 @@
-<div>
+<div style="color: white; text-align: center; background-color: #183473;max-width: 1200px;margin: auto; padding: 5%; margin-top: 5%;" >
     <div>
       <div>
         <h1>
@@ -7,7 +7,7 @@
         <%- include ('./partials/messages') %>
         <form action="/users/register" method="POST">
           <div>
-            <label for="name">Name</label>
+
             <input
               type="name"
               id="name"
@@ -18,7 +18,7 @@
             />
           </div>
           <div>
-            <label for="email">Email</label>
+
             <input
               type="email"
               id="email"
@@ -29,7 +29,7 @@
             />
           </div>
           <div>
-            <label for="password">Password</label>
+
             <input
               type="password"
               id="password"
@@ -40,7 +40,6 @@
             />
           </div>
           <div>
-            <label for="password2">Confirm Password</label>
             <input
               type="password"
               id="password2"
@@ -50,11 +49,11 @@
               value="<%= typeof password2 != 'undefined' ? password2 : '' %>"
             />
           </div>
-          <button type="submit">
+          <button id="saveButton" type="submit" style="width: auto;">
             Register
           </button>
         </form>
-        <p>Have An Account? <a href="/users/login">Login</a></p>
+        <p>Have An Account? <a style="color: white;" href="/users/login">Login</a></p>
       </div>
     </div>
   </div>

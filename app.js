@@ -106,10 +106,6 @@ io.sockets.on("connection", (socket) => {
           connectedUsers[i].socketID
       );
     }
-
-    /*io.to(data.room).emit('UserListToClient',{
-      connectedUsers: usersInCurrentRoom
-    });*/
   });
 
   /*<<<--handling someone's disconnecting, removing them from connected users list--->>>*/
@@ -156,6 +152,11 @@ io.sockets.on("connection", (socket) => {
   /*<<<---Handles private messaging---->>>*/
 
   socket.on("messageToServer", (data) => {
+    data.message = data.message.trim()
+    if(data.message === "") return
+    data.message = removeTags(data.message)
+    if(!data.message) return
+
     console.log(
       data.senderID +
         " sended message " +
@@ -192,3 +193,12 @@ io.sockets.on("connection", (socket) => {
     messageModel.insertMessage(newData)
   });
 });
+
+function removeTags(str) {
+  str = str.trim()
+  if ((str===null) || (str===''))
+  return false;
+  else
+  str = str.toString();
+  return str.replace( /(<([^>]+)>)/ig, '');
+}

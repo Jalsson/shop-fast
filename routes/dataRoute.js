@@ -14,7 +14,7 @@ router.get('/pic', ensureAuthenticated, (req,res) => {res.render('index',{
     email: req.user.email,
     id: req.user.id
 })});
-router.get('/pic/filter', dataController.getFilteredImages)
+//router.get('/pic/filter', dataController.getFilteredImages)
 //
 router.post('/', ensureAuthenticated, upload.array('url[]', 3), dataController.data_post);
 
