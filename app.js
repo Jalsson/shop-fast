@@ -14,6 +14,7 @@ require("./controllers/passport")(passport);
 app.use(express.static("uploads"));
 // EJS
 app.use(expressLayouts);
+app.set('views', './views');
 app.set("view engine", "ejs");
 
 //Bodyparser
@@ -46,6 +47,7 @@ app.use((req, res, next) => {
 
 app.use(express.static(__dirname + "/public"));
 app.use(express.static("views"));
+
 
 // Routes
 app.use("/", require("./routes/index"));
