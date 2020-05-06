@@ -13,7 +13,7 @@ router.get('/frontpage',ensureAuthenticated, (req,res) => {
         email: req.user.email,
         id: req.user.id
     })})
-router.get('/', (req,res) => {res.render('Welcome')})
+router.get('/', (req,res) => {res.render('welcome')})
 //router.get('/', (req,res) => {res.render('index')});
 //router.get('/product', dataController.products_get);
 //router.get('/:id', dataController.image_get);
