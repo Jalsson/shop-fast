@@ -1,8 +1,5 @@
-const mainUrl = window.location.hostname;
-window.location.href //returns the href (URL) of the current page
-window.location.hostname //returns the domain name of the web host
-window.location.pathname //returns the path and filename of the current page
-window.location.protocol //returns the web protocol used (http: or https:)
+const mainUrl = window.location.protocol+"//"+window.location.hostname+":5000/";
+
 const mainHeader = document.querySelector("#main");
 const addDataForm = document.querySelector("#add-data-form");
 
@@ -107,7 +104,7 @@ const createProductDivs = (products, filter) => {
       let image = document.createElement("img");
       image.className = "slideImage";
       image.alt = "picture";
-      image.src = mainUrl + "/" + element.urls[i].url;
+      image.src = mainUrl + "" + element.urls[i].url;
       if(i >= 1){
         image.style.display = "none"
       }else{
@@ -163,7 +160,7 @@ const createProductDivs = (products, filter) => {
 //getproducts fetches data once called then creates divs that are needed with createProductDivs function
 const getProducts = async (filter) => {
   try {
-    const response = await fetch(mainUrl + "/data");
+    const response = await fetch(mainUrl + "data");
     const products = await response.json();
     createProductDivs(products, filter);
   } catch (e) {
