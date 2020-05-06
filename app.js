@@ -14,7 +14,7 @@ require("./controllers/passport")(passport);
 app.use(express.static("uploads"));
 // EJS
 app.use(expressLayouts);
-app.set('views', './views');
+app.set('views', './src/views');
 app.set("view engine", "ejs");
 
 //Bodyparser
