@@ -44,14 +44,14 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use(express.static(__dirname + "app/public"));
+app.use(express.static(__dirname + "/app/public"));
 app.use(express.static("views"));
 
 // Routes
-app.use("app/", require("./routes/index"));
-app.use("app/users", require("./routes/users"));
-app.use("app/data", require("./routes/dataRoute"));
-app.use("app/chat", require("./routes/messages"));
+app.use("/app/", require("./routes/index"));
+app.use("/app/users", require("./routes/users"));
+app.use("/app/data", require("./routes/dataRoute"));
+app.use("/app/chat", require("./routes/messages"));
 
 const PORT = process.env.PORT || 5000;
 
