@@ -122,7 +122,7 @@ function populateChat(otherID) {
 }
 
 // Luo yhteys
-const socket = io('http://'+window.location.hostname, {
+const socket = io('https://'+window.location.hostname, {
   path: '/app/socket.io/'
 });
 

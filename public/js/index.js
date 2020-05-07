@@ -4,7 +4,7 @@ console.log(mainUrl)
 const mainHeader = document.querySelector("#main");
 const addDataForm = document.querySelector("#add-data-form");
 
-const socket = io('http://'+window.location.hostname, {
+const socket = io('https://'+window.location.hostname, {
   path: '/app/socket.io/'
 });
 
