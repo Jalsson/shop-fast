@@ -1,3 +1,4 @@
+'use strict';
 require("dotenv").config();
 const express = require("express");
 const messageModel = require("./models/messageModel");
@@ -9,6 +10,8 @@ const socket = require('socket.io')
 
 const http = require("http");
 const app = express();
+
+app.enable('trust proxy');
 
 //Passport config
 require("./controllers/passport")(passport);
@@ -57,7 +60,28 @@ app.use("/chat", require("./routes/messages"));
 
 const PORT = process.env.PORT || 5000;
 
+// Add a handler to inspect the req.secure flag (see
+// http://expressjs.com/api#req.secure). This allows us
+// to know whether the request was via http or https.
+// https://github.com/aerwin/https-redirect-demo/blob/master/server.js
+app.use ((req, res, next) => {
+  if (req.secure) {
+    // request was via https, so do no special handling
+    next();
+  } else {
+    // if express app run under proxy with sub path URL
+    // e.g. http://www.myserver.com/app/
+    // then, in your .env, set PROXY_PASS=/app
+    // Adapt to your proxy settings!
+    const proxypath = process.env.PROXY_PASS || ''
+    // request was via http, so redirect to https
+    res.redirect(301, `https://${req.headers.host}${proxypath}${req.url}`);
+  }
+});
+
+
 let server = app.listen(PORT, console.log(`Server started on port ${PORT}`));
+
 
 // setup socket.io
 let io = socket(server);
