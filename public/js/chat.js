@@ -122,9 +122,7 @@ function populateChat(otherID) {
 }
 
 // Luo yhteys
-const socket = io('http://'+window.location.hostname, {
-  path: '/app'
-});
+const socket = io.connect('http://10.114.34.48/app/')
 
 socket.on("disconnect", function () {
   console.log("disconnecting");

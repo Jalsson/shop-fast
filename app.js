@@ -5,9 +5,8 @@ const expressLayouts = require("express-ejs-layouts");
 const flash = require("connect-flash");
 const session = require("express-session");
 const passport = require("passport");
-const socket = require('socket.io')({
-  path: '/app/'
-});
+const socket = require('socket.io')
+
 const http = require("http");
 const app = express();
 
