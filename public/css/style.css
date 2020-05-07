@@ -3,7 +3,7 @@ body{
     height: auto;
     min-height: 100%;
     font-family: 'Karla', sans-serif;
-    background-image: url('/images/shopfast-background.svg');
+    background-image: url('/app/images/shopfast-background.svg');
     background-size: 9000px;
     background-position: center;
 }
