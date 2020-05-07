@@ -1,5 +1,5 @@
-const mainUrl = window.location.protocol+"//"+window.location.hostname+":5000/";
-
+//const mainUrl = window.location.protocol+"//"+window.location.hostname+":5000/";
+const mainUrl = "10.114.34.48/app/"
 const mainHeader = document.querySelector("#main");
 const addDataForm = document.querySelector("#add-data-form");
 
