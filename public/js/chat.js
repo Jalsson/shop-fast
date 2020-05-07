@@ -123,7 +123,7 @@ function populateChat(otherID) {
 
 // Luo yhteys
 const socket = io('http://'+window.location.hostname, {
-  path: '/app/'
+  path: '/app'
 });
 
 socket.on("disconnect", function () {

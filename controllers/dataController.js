@@ -113,7 +113,7 @@ const data_post = async (req, res) => {
     console.log("dataController"+e);
   }
   req.flash('success_msg', 'Product inserted succesfully')
-  res.redirect("/app/data/pic")
+  res.redirect("/app/frontpage")
 };
 
 const pictures_get = async (req, res) => {
