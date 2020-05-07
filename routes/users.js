@@ -72,7 +72,12 @@ router.post('/register',(req,res) => {
                             // saving user to database
                             userModel.insertUser(newUser).then(user => {
                                 req.flash("success_msg", "You are now registered and can log in")
-                                res.redirect('users/login')
+                                //if(process.env.NODE_ENV === 'production'){
+                                    res.redirect('/app/users/login')
+                                //}else{
+                                    //res.redirect('/user/login')
+                                //}
+                                
                             })
                             .catch(err => console.log(err))
                     })})
@@ -94,8 +99,8 @@ function removeTags(str) {
 // Login handle
 router.post('/login',function(req,res,next){
     passport.authenticate('local',{
-        successRedirect: '/frontpage',
-        failureRedirect: '/users/login',
+        successRedirect: '/app/frontpage',
+        failureRedirect: '/app/users/login',
         failureFlash: true
     })(req, res, next)
 })
@@ -104,6 +109,6 @@ router.post('/login',function(req,res,next){
 router.get('/logout', function(req, res){
     req.logout()
     req.flash('success_msg', 'You are logged out')
-    res.redirect('/users/login')
+    res.redirect('/app/users/login')
 })
 module.exports = router
