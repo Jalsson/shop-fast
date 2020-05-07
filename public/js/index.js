@@ -4,7 +4,10 @@ console.log(mainUrl)
 const mainHeader = document.querySelector("#main");
 const addDataForm = document.querySelector("#add-data-form");
 
-const socket = io.connect();
+const socket = io('http://'+window.location.hostname, {
+  path: '/app/socket.io/'
+});
+
 
 const imageModal = document.querySelector('#image-modal');
 const modalImage = document.querySelector('#image-modal img');

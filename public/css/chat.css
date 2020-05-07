@@ -77,8 +77,7 @@
   }
 
   .user-message{
-
-    justify-content: end;
+    justify-content: flex-end;
   }
 
   .message-container{
