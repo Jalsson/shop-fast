@@ -36,7 +36,7 @@
   <div id="sidebar">
   <div id="formContainer">
     <%- include ('./partials/messages') %>
-    <h2>Add your product for sale</h2>
+    <h2 id="formHeader">Add your product for sale</h2>
     <form
       id="fileCatcher"
       action="/app/data"
@@ -66,7 +66,7 @@
         <option value="negotiable">negotiable</option>
         <option value="not negotiable">not negotiable</option>
       </select>
-      
+
       <input
         class="light-border"
         type="text"
