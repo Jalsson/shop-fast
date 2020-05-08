@@ -46,7 +46,7 @@ app.use(
 
 app.use(function(req, res, next) {
   if (req.headers['x-forwarded-proto'] !== 'https') {
-      return res.redirect(['https://', req.get('Host /app/'), req.url].join());
+      return res.redirect("https://10.114.34.48/app/");
   }
   return next();
 });
