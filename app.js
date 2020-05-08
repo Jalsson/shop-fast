@@ -44,7 +44,7 @@ app.use(
 
 // set up a route to redirect http to https
 http.get('*', function(req, res) {  
-  res.redirect('https://10.114.34.48/app/' + req.url);
+  res.redirect('https://' + req.headers.host +"/app/"+ req.url);
 
   // Or, if you don't want to automatically detect the domain name from the request header, you can hard code it:
   // res.redirect('https://' + req.url);
