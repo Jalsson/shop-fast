@@ -124,7 +124,6 @@ function removeTags(str) {
 module.exports = {
   image_get,
   products_get,
-  images_get,
   pictures_get,
   data_post,
 };

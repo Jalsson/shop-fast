@@ -73,8 +73,6 @@ const getPictures = async (id) =>{
 module.exports = {
     getImage,
     getAllProducts,
-    getAllImages,
     getPictures,
     insertData,
-    filterProducts,
   };
