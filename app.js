@@ -67,6 +67,7 @@ const PORT = process.env.PORT || 5000;
 app.use ((req, res, next) => {
   if (req.secure) {
     // request was via https, so do no special handling
+    console.log("https connection")
     next();
   } else {
     // if express app run under proxy with sub path URL
@@ -75,6 +76,7 @@ app.use ((req, res, next) => {
     // Adapt to your proxy settings!
     const proxypath = process.env.PROXY_PASS || ''
     // request was via http, so redirect to https
+    console.log("redirecting to https")
     res.redirect(301, `https://${req.headers.host}${proxypath}${req.url}`);
   }
 });
