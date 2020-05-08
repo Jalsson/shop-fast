@@ -72,12 +72,7 @@ router.post('/register',(req,res) => {
                             // saving user to database
                             userModel.insertUser(newUser).then(user => {
                                 req.flash("success_msg", "You are now registered and can log in")
-                                //if(process.env.NODE_ENV === 'production'){
-                                    res.redirect('/app/users/login')
-                                //}else{
-                                    //res.redirect('/user/login')
-                                //}
-                                
+                                res.redirect('/app/users/login')
                             })
                             .catch(err => console.log(err))
                     })})

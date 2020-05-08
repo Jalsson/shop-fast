@@ -3,19 +3,17 @@ const imageMeta = require("../utils/imageMeta")
 const { validationResult } = require("express-validator");
 let pic2 = "";
 let pic3 = "";
-//
-var gm = require('gm')
-  , width = 200
-  , height = 400
 
 
+//returns image as a json response
 const image_get = async (req, res) => {
   console.log("picture id parameter", req.params);
   const image = await dataModel.getImage();
   res.json(image);
 };
 
-
+//returns products as json response and combines them with their images
+//images are returned as object which is inside object
 const products_get = async (req, res) => {
   let products = await dataModel.getAllProducts();
   var productsWithImages = [];
@@ -42,14 +40,10 @@ const products_get = async (req, res) => {
 };
 
 
-const images_get = async (req, res) => {
-  console.log("images called");
-  const images = await dataModel.getAllImages();
-  res.json(images);
-  
-};
 
 
+//Inserts products data and pictures into object and then pushes themn to db
+//Coordinates are being taken from first img file using exif data 
 const data_post = async (req, res) => {
 
   console.log(req.user.id)
@@ -61,14 +55,6 @@ const data_post = async (req, res) => {
 
   try {
 
-  for(let i = 0; i < req.files.length; i++){
-    gm(req.files[i].path)
-    .crop(width, height, 0, 0)
-  .write( function (err) {
-    if (err) {"rip"}
-    });
-  }
-
     const pic1 = req.files[0];
     const path = req.files[0].path;
     
@@ -76,6 +62,7 @@ const data_post = async (req, res) => {
     pictures.push(pic1.filename);
 
     let coords = ""
+    //coordinates from picture
     try{coords = await imageMeta.getCoordinates(path);
     }catch(e){
       console.log("no coordinates in image")
@@ -83,6 +70,7 @@ const data_post = async (req, res) => {
     
     let location = "";
     if(!coords == ""){
+    //coordinates inserted to location
       location = coords;
     }else{
       location = req.body.location;
@@ -113,14 +101,17 @@ const data_post = async (req, res) => {
     console.log("dataController"+e);
   }
   req.flash('success_msg', 'Product inserted succesfully')
+  //reloads the page 
   res.redirect("/app/frontpage")
 };
 
+//gets all images as json
 const pictures_get = async (req, res) => {
   const pictures = await dataModel.getPictures();
   res.json(pictures);
 };
 
+//checks if input has tags which may harm the server
 function removeTags(str) {
   str = str.trim()
   if ((str===null) || (str===''))

@@ -9,17 +9,17 @@ const socket = io('https://'+window.location.hostname, {
 });
 
 
-const imageModal = document.querySelector('#image-modal');
-const modalImage = document.querySelector('#image-modal img');
+const imageModal = document.querySelector('#image-modal'); //div which displays image bigger
+const modalImage = document.querySelector('#image-modal img'); 
 const modalDiv = document.querySelector('#modalDiv');
 
 const header = document.querySelector("#Header");
-const chatStart = document.querySelector("#chatStart");
-const sitecontainer = document.querySelector("#siteContainer");
+const chatStart = document.querySelector("#chatStart"); //displays information about product
+const sitecontainer = document.querySelector("#siteContainer"); 
 
-const modalList = document.querySelector("#modalList");
+const modalList = document.querySelector("#modalList"); //list inside chatStart
 
-const insertedLocation = document.querySelector("#location");
+const insertedLocation = document.querySelector("#location"); //input form (location)
 const locationButton = document.querySelector("#locationInsert")
 
 const sendMessageBtn = document.querySelector("#sendMessage");
@@ -39,7 +39,7 @@ let filterDistance = 0.0
 
 let productOwnerId = 0
 
-
+//Creates div for every product 
 const createProductDivs = (products, filter) => {
   
   products.forEach((element) => {
@@ -71,9 +71,11 @@ const createProductDivs = (products, filter) => {
     if(userDistance === undefined){
       userDistance = 0;
     }
+    //distance
     const dist = document.createTextNode(Math.round(userDistance)+"km")
     productDistance.appendChild(dist);
     
+    //image slide buttons 
     const button1 = document.createElement('button');
     button1.id = "minusSlide";
     const filling = document.createTextNode('<');
@@ -82,6 +84,7 @@ const createProductDivs = (products, filter) => {
     button2.id = "plusSlide";
     const filling2 = document.createTextNode('>')
     
+    //listeners for slide buttons
     button1.addEventListener('click', function(){
       id = div.id
       if(called === 0){
@@ -101,19 +104,21 @@ const createProductDivs = (products, filter) => {
     });
     divNumber++
     
-    //
-
+    
+    //iterates every image from a object and makes them hidden or visible
     for (let i = 0; i < element.urls.length; i++) {
-      //element.urls[i].url
       let image = document.createElement("img");
       image.className = "slideImage";
       image.alt = "picture";
       image.src = mainUrl + "" + element.urls[i].url;
+      //first image visible at first others hidden
       if(i >= 1){
         image.style.display = "none"
       }else{
         image.style.display = "block"
       }
+      //event listener for every img which hides and makes divs visible
+      //inputs the right data for every image
       image.addEventListener('click', () => {
         imageModal.classList.remove('hide');
         modalImage.src = image.src;
@@ -126,9 +131,11 @@ const createProductDivs = (products, filter) => {
         
         console.log("id of owner: "+productOwnerId)
 
+        //product name
         const pName = document.querySelector("#productName")
         pName.textContent = element.name
         
+        //list for products (price, price_flex, desc)
         const list1 = document.querySelector("#li1")
         list1.textContent = "Product price: "+element.price+"€"
 
@@ -195,7 +202,9 @@ filterButton.addEventListener('click', async function(){
   getProducts(filter)
 });
 
-//function getUserLocation(){
+//////////////////////////////
+// user location
+//////////////////////////////
 const getUserLocation = async () =>{
   if(navigator.geolocation){
     await navigator.geolocation.getCurrentPosition(displayPosition)
@@ -204,14 +213,20 @@ const getUserLocation = async () =>{
   }
 }
 
+//////////////////////////////
+//stores user location to variables
+//////////////////////////////
 function displayPosition(position) {
   lat1 = position.coords.latitude
   lon1 = position.coords.longitude
   console.log("My location is: "+lat1 +", " + lon1);
-  //let unit = "K"
-  //distance(lat1, lon1, lat2, lon2, unit)
 }
+//user location stored once page loaded
 getUserLocation();
+
+//////////////////////////////
+//calculates distance between coordinates
+//////////////////////////////
 function distance(lat1, lon1, lat2, lon2, unit){
   if ((lat1 == lat2) && (lon1 == lon2)) {
 	}else{
@@ -250,8 +265,6 @@ saveButton.addEventListener("click", insertLocation)
 //////////////////////////////
 const close = document.querySelector(".close")
 close.addEventListener('click', closeInspect);
-  //evt.preventDefault();
-
 
 function closeInspect(){
   imageModal.classList.add('hide');
@@ -262,6 +275,9 @@ function closeInspect(){
 }
 
 var slideIndex = 0;
+//////////////////////////////
+//slide image
+//////////////////////////////
 
 //setups image slides
 function slideSetup(id){
@@ -286,6 +302,7 @@ function showDivs(n, id) {
   x[slideIndex-1].style.display = "block";
 }
 
+//socket connection
 socket.on("connect", () => {
   socket.emit("newUserToServer", {
     userName: myName,
@@ -297,12 +314,15 @@ socket.on("connect", () => {
 //sending msg to seller
 /////////////////////////////
 
+//event listener for button
 sendMessageBtn.addEventListener("click", function() {
   let message = textArea.value
   console.log(message)
   sendMessageToUser(message, productOwnerId)
   closeInspect();
 });
+
+//function which sends message, idTosend = msg receiver id 
 function sendMessageToUser(message, idToSend){
 
   socket.emit("messageToServer", {

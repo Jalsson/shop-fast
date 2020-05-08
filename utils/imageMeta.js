@@ -4,21 +4,21 @@ const ExifImage = require('exif').ExifImage;
 const getCoordinates = (imgFile) => { // imgFile = full path to uploaded image
     return new Promise((resolve, reject) => {
         try {
-            // TODO: Use node-exif to get longitude and latitude from imgFile
-
+            
+                // gets longitude and latitude
             new ExifImage({image: imgFile}, function (error, exifData) {
                 if (error) {
                     console.log('Error: ' + error.message);
                     reject(error);
                 } else {
-                    console.log(exifData); // Do something with your data!
+                    console.log(exifData); 
                     try{
                     const lat = gpsToDecimal(exifData.gps.GPSLatitude, exifData.gps.GPSLatitudeRef);
                     const lon = gpsToDecimal(exifData.gps.GPSLongitude, exifData.gps.GPSLongitudeRef);
                     
                     let coordinates = lat;
                     coordinates += ", "+lon;
-                    
+                    //coordinates resolves as string
                     resolve(coordinates);
                 }catch(e){
                     reject("cant change latitude and longitude to decimal")

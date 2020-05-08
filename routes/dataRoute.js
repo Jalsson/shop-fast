@@ -7,6 +7,8 @@ const upload = multer({dest: './uploads/'});
 const dataController = require('../controllers/dataController');
 const { ensureAuthenticated} = require('../controllers/auth')
 
+//routes for product page (frontpage)
+//pics only returns json
 router.get('/', ensureAuthenticated, dataController.products_get);
 router.get('/pics', ensureAuthenticated, dataController.pictures_get);
 router.get('/pic', ensureAuthenticated, (req,res) => {res.render('index',{
@@ -14,8 +16,8 @@ router.get('/pic', ensureAuthenticated, (req,res) => {res.render('index',{
     email: req.user.email,
     id: req.user.id
 })});
-//router.get('/pic/filter', dataController.getFilteredImages)
-//
+
+//data posting
 router.post('/', ensureAuthenticated, upload.array('url[]', 3), dataController.data_post);
 
 

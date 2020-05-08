@@ -7,10 +7,13 @@ body{
     background-size: 9000px;
     background-position: center;
 }
+/*inside every site*/
 #container{
   min-height: 100vh;
   margin: 0;
 }
+/*product page*/
+/* <<------------------------------------------------------->>*/
 #siteContainer{
   display: flex;
   flex-direction: row;
@@ -96,7 +99,7 @@ input[type=text], select{
   input[type=submit]:hover {
     background-color: #45a049;
   }
-
+  /*file upload button*/
   #fileUpload{
     width: 90%;
     margin-left: 5%;
@@ -116,8 +119,6 @@ input[type=text], select{
   h1 {
     margin: 0;
   }
-
-  /*image slide*/
 
   #minusSlide, #plusSlide{
   cursor: pointer;
@@ -146,45 +147,6 @@ input[type=text], select{
   
   .hide {
     display: none !important;
-}
-
-.modal {
-  width: 80%;
-  margin-left: 10%;
-  margin-right: 10%;
-  min-height: 25vh;
-  background-color: rgba(0,0,0,.5);
-  
-}
-
-
-.modal img {
-  display: block;
-  width: 40%;
-  margin: auto;
-}
-
-.close {
-  
-  top: 1em;
-  right: 1em;
-  color: #fff;
-  text-shadow: #000;
-  font-size: 2em;
-}
-
-#chatHeader{
-  text-align: center;
-}
-
-#chatStart{
-  display: none;
-  background-color: grey;
-  margin-top: 2vh;
-  margin-left: 20%;
-  margin-right: 20%;
-  width: 60%;
-  height: 50vh;
 }
 
 #filterDiv{
@@ -243,6 +205,43 @@ input[type=text], select{
   margin-left: 5%;
   margin-right: 5%;
 }
+/* product inspection css */
+/* <<------------------------------------------------------->>*/
+.modal {
+  width: 80%;
+  margin-left: 10%;
+  margin-right: 10%;
+  min-height: 25vh;
+  background-color: rgba(0,0,0,.5);
+}
+
+.modal img {
+  display: block;
+  width: 40%;
+  margin: auto;
+}
+
+.close {
+  top: 1em;
+  right: 1em;
+  color: #fff;
+  text-shadow: #000;
+  font-size: 2em;
+}
+
+#chatHeader{
+  text-align: center;
+}
+
+#chatStart{
+  display: none;
+  background-color: grey;
+  margin-top: 2vh;
+  margin-left: 20%;
+  margin-right: 20%;
+  width: 60%;
+  height: 50vh;
+}
 
 #productName{
   text-align: center;
@@ -274,7 +273,8 @@ input[type=text], select{
     margin-bottom: 1vh;
     padding: 14px 28px;
 }
-
+/* navigation and noticication css here */
+/* <<------------------------------------------------------->>*/
 .navigation-container{
   margin-left: 15%;
   min-width: 55%;
@@ -296,6 +296,8 @@ input[type=text], select{
   padding: 5px;
   border-radius: 10px;
 }
+/* break point stuff for mobile and smaller screens*/
+/* <<------------------------------------------------------->>*/
 
   @media only screen and (max-width: 1550px){
     #sidebar{
@@ -315,6 +317,9 @@ input[type=text], select{
       margin-right: 15%;
       width: 70%;
       height: 60vh;
+    }
+    #chatHeader{
+      font-size: 2.5vh;
     }
   }
 
