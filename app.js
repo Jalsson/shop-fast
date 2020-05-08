@@ -23,7 +23,6 @@ app.use ((req, res, next) => {
     console.log("https connection")
     next();
   } else {
-    location.replace
     // if express app run under proxy with sub path URL
     // e.g. http://www.myserver.com/app/
     // then, in your .env, set PROXY_PASS=/app
