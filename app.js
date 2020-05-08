@@ -30,7 +30,7 @@ app.use ((req, res, next) => {
     const proxypath = process.env.PROXY_PASS || ''
     // request was via http, so redirect to https
     console.log("redirecting to https")
-    res.redirect(301, `https://${req.headers.host}${proxypath}${req.url}`);
+    res.redirect(301, `https://${req.headers.host}${proxypath}"app/"${req.url}`);
   }
 });
 
