@@ -16,13 +16,14 @@ router.get('/',ensureAuthenticated, (req,res) => {
     });
 })
 
-
+//servers all messages upon 
 router.get('/loadMessages',ensureAuthenticated, function(req,res) {
     messageModel.selectMessages(req.user.id).then( messages => {
         res.json(messages)
     });
 })
 
+//get given name for id in DB
 router.get('/getName',ensureAuthenticated,function(req,res){
     let otherName = req.body.otherName
     userModel.selectUser({name: otherName})

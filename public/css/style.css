@@ -355,4 +355,8 @@ input[type=text], select{
       width: 80%;
       height: 70vh;
     }
+
+    #chatHeader{
+      font-size: 2.5vh;
+    }
   }
