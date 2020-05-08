@@ -17,22 +17,8 @@ const PORT = process.env.PORT || 5000;
 // http://expressjs.com/api#req.secure). This allows us
 // to know whether the request was via http or https.
 // https://github.com/aerwin/https-redirect-demo/blob/master/server.js
-app.use ((req, res, next) => {
-  if (req.secure) {
-    // request was via https, so do no special handling
-    console.log("https connection")
-    next();
-  } else {
-    // if express app run under proxy with sub path URL
-    // e.g. http://www.myserver.com/app/
-    // then, in your .env, set PROXY_PASS=/app
-    // Adapt to your proxy settings!
-    const proxypath = process.env.PROXY_PASS || ''
-    // request was via http, so redirect to https
-    console.log("redirecting to https")
-    res.redirect(301, `https://${req.headers.host}${proxypath}"app/"${req.url}`);
-  }
-});
+
+
 
 app.enable('trust proxy');
 
@@ -55,6 +41,14 @@ app.use(
     saveUninitialized: true,
   })
 );
+
+app.use(function(req, res, next) {
+  if (req.headers['x-forwarded-proto'] !== 'https') {
+      return res.redirect(['https://', req.get('Host'), req.url].join(''));
+  }
+  return next();
+});
+
 
 // Passport middleware
 app.use(passport.initialize());
