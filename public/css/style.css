@@ -310,7 +310,12 @@ input[type=text], select{
       margin-left: 15%;
       width: 55%;
     }
-
+    #chatStart{
+      margin-left: 15%;
+      margin-right: 15%;
+      width: 70%;
+      height: 60vh;
+    }
   }
 
   @media only screen and (max-width: 900px){
