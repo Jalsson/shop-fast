@@ -42,20 +42,14 @@ app.use(
   })
 );
 
-// set up a route to redirect http to https
-http.get('*', function(req, res) {  
-  res.redirect('https://' + req.headers.host +"/app/"+ req.url);
 
-  // Or, if you don't want to automatically detect the domain name from the request header, you can hard code it:
-  // res.redirect('https://' + req.url);
-})
 
-/*app.use(function(req, res, next) {
+app.use(function(req, res, next) {
   if (req.headers['x-forwarded-proto'] !== 'https') {
-      return res.redirect(['https://', req.get('Host'), req.url].join('/app'));
+      return res.redirect(['https://', req.get('Host')+ "/app/", req.url].join());
   }
   return next();
-});*/
+});
 
 
 // Passport middleware
