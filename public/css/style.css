@@ -348,4 +348,11 @@ input[type=text], select{
       width: 100%;
       margin: 0;
     }
+
+    #chatStart{
+      margin-left: 10%;
+      margin-right: 10%;
+      width: 80%;
+      height: 70vh;
+    }
   }
