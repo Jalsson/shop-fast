@@ -30,5 +30,6 @@ This project uses node.js to run so there is some files you need before you can 
 
 ## Run the development build
 - Cd into **root** of the project where you can see `app.js` file and run command `npm run start` or `nodemon app.js` 
-- Create and fill up the .env in to root folder. Note that you also need to host local sql database for it. See example this https://github.com/laravel/laravel/blob/master/.env.example 
+- Create and fill up the .env in to root folder. Note that you also need to host local sql database for it. 
+See this example https://github.com/laravel/laravel/blob/master/.env.example 
 - Wait until everything is started and navigate to https://localhost:5000/
