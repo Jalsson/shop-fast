@@ -112,7 +112,7 @@ const myEmail = "<%- email %>"
 function checkFiles(files) {       
       if(files.length>3) {
         alert("maximum amount of files is 3");
-        files.value = '';
+        document.getElementById('fileUpload').value = null;
         return false;
         }  
   }
