@@ -7,6 +7,7 @@
 
 ## Features
 - Can be viewed in mobile and desktop
+- Uses image metadata (exifdata) to get product/image location. Gets location as coordinates from the first uploaded image otherwise uses browser/computer location.
 -**Database**
   - This site uses database to store all the login information.
   - Database is also used to store all products that are for sell and also messages between users
