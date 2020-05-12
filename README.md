@@ -1,4 +1,4 @@
-# shop-fast
+# Shop Fast
  
 ## Notes
 - This is school project for mobile solution course in metropolia school
