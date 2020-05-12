@@ -94,6 +94,7 @@
         accept="image/*"
         placeholder="Choose file"
         multiple=""
+        onchange="checkFiles(this.files)"
         required
       />
       <button class="light-border" type="submit" id="saveButton">Save</button>
@@ -107,6 +108,13 @@
 const myID = <%- id %>
 const myName = "<%- name %>"
 const myEmail = "<%- email %>"
+
+function checkFiles(files) {       
+      if(files.length>3) {
+        alert("maximum amount of files is 3");
+        files.slice(0,3);
+        return false;
+        }       
 </script>
   
 <script type="text/javascript" src="/app/js/index.js"></script>
